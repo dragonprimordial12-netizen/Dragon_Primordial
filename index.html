@@ -325,6 +325,86 @@
   ::-webkit-scrollbar { width:5px; }
   ::-webkit-scrollbar-track { background:var(--dark); }
   ::-webkit-scrollbar-thumb { background:var(--blood); border-radius:3px; }
+
+  /* ══════════════════════════════════════════
+     ATOMBIO — sección de categorías completa
+     ══════════════════════════════════════════ */
+
+  /* Quick-nav de categorías */
+  .cat-nav {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    width: 100%;
+    padding: 0.3rem 0.1rem 0.4rem;
+    margin: 0.4rem 0 0.2rem;
+    scrollbar-width: none;
+  }
+  .cat-nav::-webkit-scrollbar { display: none; }
+  .cat-nav a {
+    flex: 0 0 auto;
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: #d4b88a;
+    border: 1px solid rgba(255,100,0,0.25);
+    background: rgba(255,60,0,0.06);
+    padding: 0.42rem 0.75rem;
+    white-space: nowrap;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    transition: all 0.2s;
+  }
+  .cat-nav a:hover, .cat-nav a:active {
+    border-color: var(--ember);
+    color: #ffe8b8;
+    background: rgba(255,80,0,0.16);
+  }
+
+  /* Cabecera de cada categoría */
+  .section-header {
+    width: 100%;
+    scroll-margin-top: 1rem;
+    text-align: center;
+    margin: 2.2rem 0 0.9rem;
+  }
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffe680, #ff8c00 45%, #ff2200 85%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.45rem;
+    filter: drop-shadow(0 0 12px rgba(255,100,0,0.3));
+  }
+  .section-desc {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.78rem;
+    color: #c8a878;
+    max-width: 360px;
+    line-height: 1.6;
+    margin: 0 auto;
+  }
+
+  /* Divisor grande antes del bloque ATOMBIO */
+  .mega-divider {
+    width: 100%;
+    text-align: center;
+    margin: 2.4rem 0 0.4rem;
+  }
+  .mega-divider .rune-divider { margin-bottom: 0.6rem; }
+  .mega-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+    font-weight: 900;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(255,215,0,0.35);
+    letter-spacing: 0.05em;
+  }
 </style>
 </head>
 <body>
@@ -477,6 +557,363 @@
       <span class="link-arrow">▶</span>
     </a>
 
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ATOMBIO — todas las categorías
+       ══════════════════════════════════════════ -->
+  <div class="mega-divider">
+    <div class="rune-divider"><span>⚔</span></div>
+    <h2 class="mega-title">🐉 Todo el Universo 🐉</h2>
+  </div>
+
+  <!-- QUICK NAV -->
+  <nav class="cat-nav">
+    <a href="#cat-bestias">🔥 Bestias</a>
+    <a href="#cat-peticiones">📋 Peticiones</a>
+    <a href="#cat-arte">🎨 Arte</a>
+    <a href="#cat-filosofia">🩷 Filosofía</a>
+    <a href="#cat-vtuber">🎙️ Vtuber</a>
+    <a href="#cat-ajedrez">♟️ Ajedrez</a>
+    <a href="#cat-herramientas">🛠️ Herramientas</a>
+    <a href="#cat-venta">🛒 Tienda</a>
+    <a href="#cat-extras">🗂️ Extras</a>
+  </nav>
+
+  <!-- 🔥 BESTIAS Y MONSTRUOS -->
+  <div class="section-header" id="cat-bestias">
+    <h3 class="section-title">🔥 Bestias y Monstruos 🔥</h3>
+    <p class="section-desc">Todo sobre el juego — el mundo, sus criaturas y cómo dominar la Era Salvaje.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn featured" href="https://dragonprimordial12-netizen.github.io/BESTIAS_Y_MONSTRUOS/" target="_blank">
+      <span class="link-icon">🔥</span>
+      <div class="link-text">
+        <span class="link-label">Bestias y Monstruos</span>
+        <span class="link-sub">Elige tu Bestia y domina la Era Salvaje. Gratis en Roblox.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Galeria_de_Dibujos/" target="_blank">
+      <span class="link-icon">🖼️</span>
+      <div class="link-text">
+        <span class="link-label">Galería de Dibujos</span>
+        <span class="link-sub">Arte hecho a mano de geni2012_. Comisiones abiertas.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Enciclopedia_de_Bestias/" target="_blank">
+      <span class="link-icon">📖</span>
+      <div class="link-text">
+        <span class="link-label">Enciclopedia de Bestias</span>
+        <span class="link-sub">Puras, Corruptas, Jefes y NPCs — todo documentado y catalogado.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Oraculo_de_la_Era_Salvaje/" target="_blank">
+      <span class="link-icon">🔮</span>
+      <div class="link-text">
+        <span class="link-label">Oráculo de la Era Salvaje</span>
+        <span class="link-sub">Chatea con la IA del lore: bestias, jefes, estrategias y secretos.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Tier_List/" target="_blank">
+      <span class="link-icon">⚔️</span>
+      <div class="link-text">
+        <span class="link-label">Tier List</span>
+        <span class="link-sub">Clasificá tus favoritos, o hacé pelear a dos en modo Versus.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Habilidades/" target="_blank">
+      <span class="link-icon">💥</span>
+      <div class="link-text">
+        <span class="link-label">Habilidades</span>
+        <span class="link-sub">Guía completa: cada bestia, cada tecla, modo día y modo noche.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Criaturas_Miticas/" target="_blank">
+      <span class="link-icon">🐲</span>
+      <div class="link-text">
+        <span class="link-label">Criaturas Míticas</span>
+        <span class="link-sub">Dragones, grifos, fénix y leyendas de toda la mitología.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 📋 PETICIONES -->
+  <div class="section-header" id="cat-peticiones">
+    <h3 class="section-title">📋 Peticiones para Nuevas Bestias</h3>
+    <p class="section-desc">Aquí podrás ver la galería de las bestias que ya están aprobadas y también enviar peticiones.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonp-peticionese1-f347a3.gitlab.io" target="_blank">
+      <span class="link-icon">📜</span>
+      <div class="link-text">
+        <span class="link-label">Peticiones de Bestias</span>
+        <span class="link-sub">¿Tenés una idea épica de bestia? Envíala y podría entrar al juego.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonp-peticionese1-f347a3.gitlab.io/galeria.html" target="_blank">
+      <span class="link-icon">🖼️</span>
+      <div class="link-text">
+        <span class="link-label">Galería de Bestias</span>
+        <span class="link-sub">Todas las bestias ya aprobadas por la comunidad, con lore y habilidades.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonp-peticionese1-f347a3.gitlab.io/visor-3d.html" target="_blank">
+      <span class="link-icon">🌌</span>
+      <div class="link-text">
+        <span class="link-label">Galería 3D Interactiva</span>
+        <span class="link-sub">Explora las bestias en 3D: rotá, acercá y observá cada detalle.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 🎨 ARTE -->
+  <div class="section-header" id="cat-arte">
+    <h3 class="section-title">🎨 Arte</h3>
+    <p class="section-desc">Herramientas y espacios creativos del universo Dragón Primordial.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Generador_de_Arte/" target="_blank">
+      <span class="link-icon">🎨</span>
+      <div class="link-text">
+        <span class="link-label">Generador de Arte</span>
+        <span class="link-sub">Escribe cualquier idea y la magia hará el resto. 100% gratis.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Portal_Salvaje/" target="_blank">
+      <span class="link-icon">🌀</span>
+      <div class="link-text">
+        <span class="link-label">Portal Salvaje</span>
+        <span class="link-sub">El portal central: juego, arte, IA y comunidad. Elegí tu destino.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Flipbook_animado/" target="_blank">
+      <span class="link-icon">📓</span>
+      <div class="link-text">
+        <span class="link-label">Flipbook Animado</span>
+        <span class="link-sub">Dibujá cuadro por cuadro y exportá tu propia animación en GIF.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 🩷 FILOSOFÍA -->
+  <div class="section-header" id="cat-filosofia">
+    <h3 class="section-title">🩷 Filosofía</h3>
+    <p class="section-desc">Preguntas que incomodan y experimentos mentales para detenerte a pensar.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/El_Bot-n_Falso/" target="_blank">
+      <span class="link-icon">⚫</span>
+      <div class="link-text">
+        <span class="link-label">El Botón Falso</span>
+        <span class="link-sub">Un experimento mental sobre el miedo, la nada y la duda.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Espejo_Roto/" target="_blank">
+      <span class="link-icon">🪞</span>
+      <div class="link-text">
+        <span class="link-label">El Espejo Roto</span>
+        <span class="link-sub">Preguntas sin respuesta correcta, hechas para sentirse, no para responderse.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/El-BarcodeTeseo/" target="_blank">
+      <span class="link-icon">⚓</span>
+      <div class="link-text">
+        <span class="link-label">El Barco de Teseo</span>
+        <span class="link-sub">La paradoja clásica, interactiva: reemplazá las partes y descubrí la trampa.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/absurdo_interactivoindex.html" target="_blank">
+      <span class="link-icon">⚔️</span>
+      <div class="link-text">
+        <span class="link-label">El Absurdo</span>
+        <span class="link-sub">Una decisión ajena que cambia tu vida sin que lo sepas.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Ermi/" target="_blank">
+      <span class="link-icon">🐚</span>
+      <div class="link-text">
+        <span class="link-label">Cangrejo Ermitaño — La Concha</span>
+        <span class="link-sub">Foro filosófico: preguntas que hacen pensar, respuestas que te revelan.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Cangrejo_Widget/" target="_blank">
+      <span class="link-icon">🦀</span>
+      <div class="link-text">
+        <span class="link-label">Cangrejo Ermitaño — Widget</span>
+        <span class="link-sub">Instalalo en tu navegador: un cangrejo con IA que te pregunta en cualquier página.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 🎙️ VTUBER -->
+  <div class="section-header" id="cat-vtuber">
+    <h3 class="section-title">🎙️ Vtuber</h3>
+    <p class="section-desc">Herramientas de audio para tu stream o tus videos.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Lobby_Music_Generator/" target="_blank">
+      <span class="link-icon">🎵</span>
+      <div class="link-text">
+        <span class="link-label">Lobby Music Generator</span>
+        <span class="link-sub">Generá música épica, oscura o mística de fondo para tu juego o stream.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/Modulador_Voz/" target="_blank">
+      <span class="link-icon">🎙️</span>
+      <div class="link-text">
+        <span class="link-label">Modulador de Voz</span>
+        <span class="link-sub">Presets de Dragón, VTuber, Robot y más, en tiempo real.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- ♟️ AJEDREZ -->
+  <div class="section-header" id="cat-ajedrez">
+    <h3 class="section-title">♟️ Aprender Ajedrez</h3>
+    <p class="section-desc">Aprendé ajedrez desde cero: teoría, práctica y desafíos.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/El_Arte_del_Ajedrez/" target="_blank">
+      <span class="link-icon">♟️</span>
+      <div class="link-text">
+        <span class="link-label">El Arte del Ajedrez</span>
+        <span class="link-sub">Aprendé desde cero: piezas, gambitos, tácticas y quiz.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://www.chess.com/member/dragonprimordial" target="_blank">
+      <span class="link-icon">♞</span>
+      <div class="link-text">
+        <span class="link-label">chess.com</span>
+        <span class="link-sub">Retame a una partida.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 🛠️ HERRAMIENTAS -->
+  <div class="section-header" id="cat-herramientas">
+    <h3 class="section-title">🛠️ Herramientas</h3>
+    <p class="section-desc">Utilidades sueltas del taller del Dragón.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/MINECRAFT-SKIN-CREATOR-PRO/" target="_blank">
+      <span class="link-icon">🎮</span>
+      <div class="link-text">
+        <span class="link-label">Minecraft Skin Creator</span>
+        <span class="link-sub">Editor de skins pixel-perfect, con capas, capes e historial.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 🛒 MODELOS EN VENTA -->
+  <div class="section-header" id="cat-venta">
+    <h3 class="section-title">🛒 Modelos en Venta</h3>
+    <p class="section-desc">Mis assets y scripts de Roblox, listos para usar en tu juego.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn featured" href="https://builtbybit.com/creators/dragon-primordial.828779/" target="_blank">
+      <span class="link-icon">🛠️</span>
+      <div class="link-text">
+        <span class="link-label">BuiltByBit</span>
+        <span class="link-sub">NPCs, criaturas y scripts para Roblox Studio.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial.itch.io" target="_blank">
+      <span class="link-icon">🎁</span>
+      <div class="link-text">
+        <span class="link-label">itch.io</span>
+        <span class="link-sub">Mismo catálogo, tienda secundaria.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+  </div>
+
+  <!-- 🗂️ EXTRAS -->
+  <div class="section-header" id="cat-extras">
+    <h3 class="section-title">🗂️ Extras</h3>
+    <p class="section-desc">Recursos de stream, herramientas internas y material extra del Dragón.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/obs-overlays_obs_overlay_dragon_primordial/" target="_blank">
+      <span class="link-icon">🎬</span>
+      <div class="link-text">
+        <span class="link-label">Overlay Principal (OBS)</span>
+        <span class="link-sub">Capa de gameplay + chat para tu stream.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/obs-overlays_obs-intro/" target="_blank">
+      <span class="link-icon">⚔️</span>
+      <div class="link-text">
+        <span class="link-label">Intro de Stream</span>
+        <span class="link-sub">Pantalla de bienvenida al directo.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/obs-intro-bird.html/" target="_blank">
+      <span class="link-icon">🐦</span>
+      <div class="link-text">
+        <span class="link-label">Intro de Stream (versión ave)</span>
+        <span class="link-sub">Segunda variante de intro para el canal.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/obs-overlays_obs-brb.html/" target="_blank">
+      <span class="link-icon">🔴</span>
+      <div class="link-text">
+        <span class="link-label">Ya Vuelvo (BRB)</span>
+        <span class="link-sub">Pantalla de pausa del stream.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/obs-starting-soon.html/" target="_blank">
+      <span class="link-icon">🟢</span>
+      <div class="link-text">
+        <span class="link-label">Empezando Pronto</span>
+        <span class="link-sub">Pantalla de espera antes de arrancar.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/obs-overlays_obs-end.html/" target="_blank">
+      <span class="link-icon">🏁</span>
+      <div class="link-text">
+        <span class="link-label">Fin del Stream</span>
+        <span class="link-sub">Pantalla de despedida y agradecimiento.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial12-netizen.github.io/LISTINGS-COMPLETO-v4/" target="_blank">
+      <span class="link-icon">📋</span>
+      <div class="link-text">
+        <span class="link-label">Listings EN/ES</span>
+        <span class="link-sub">Generador de descripciones para BuiltByBit / itch.io.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
   </div>
 
   <!-- FOOTER -->
