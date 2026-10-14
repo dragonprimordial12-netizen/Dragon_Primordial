@@ -405,12 +405,71 @@
     text-shadow: 0 0 20px rgba(255,215,0,0.35);
     letter-spacing: 0.05em;
   }
+
+  /* ══════════════════════════════════════════
+     🌫️ NIEBLA + 🌧️ LLUVIA + 🎵 MÚSICA
+     ══════════════════════════════════════════ */
+
+  /* Niebla: dos capas blur que derivan lento en direcciones opuestas */
+  .fog-layer {
+    position: fixed;
+    left: -20%;
+    width: 140%;
+    height: 55%;
+    background: radial-gradient(ellipse at center, rgba(190,160,255,0.06), transparent 70%);
+    filter: blur(35px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .fog-1 { top: 6%;  animation: fogdrift1 70s ease-in-out infinite; }
+  .fog-2 { top: 58%; opacity: 0.7; animation: fogdrift2 95s ease-in-out infinite; }
+  @keyframes fogdrift1 {
+    0%,100% { transform: translateX(-8%); }
+    50%     { transform: translateX(8%); }
+  }
+  @keyframes fogdrift2 {
+    0%,100% { transform: translateX(6%); }
+    50%     { transform: translateX(-6%); }
+  }
+
+  /* Lluvia: canvas aparte, mismo tratamiento que #bg */
+  #rain { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+  /* Botón flotante de música de fondo */
+  .music-toggle {
+    position: fixed;
+    right: 1.1rem;
+    bottom: 1.1rem;
+    z-index: 50;
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,140,0,0.4);
+    background: radial-gradient(circle at 35% 35%, #1a0830, #060310);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255,100,0,0.35), inset 0 0 12px rgba(0,0,0,0.8);
+    transition: transform 0.2s ease;
+  }
+  .music-toggle:hover { transform: scale(1.08); }
+  .music-toggle.playing { animation: musicpulse 2.4s ease-in-out infinite; border-color: var(--gold); }
+  @keyframes musicpulse {
+    0%,100% { box-shadow: 0 0 20px rgba(255,100,0,0.35), inset 0 0 12px rgba(0,0,0,0.8); }
+    50%      { box-shadow: 0 0 36px rgba(255,180,0,0.7),  inset 0 0 12px rgba(0,0,0,0.8); }
+  }
 </style>
 </head>
 <body>
 
-<!-- PARTICLE CANVAS -->
+<!-- PARTICLE CANVAS (brasas) -->
 <canvas id="bg"></canvas>
+
+<!-- 🌫️ NIEBLA ATMOSFÉRICA (quitá estos dos div si no la querés) -->
+<div class="fog-layer fog-1"></div>
+<div class="fog-layer fog-2"></div>
+
+<!-- 🌧️ LLUVIA (se apaga/prende con LLUVIA_ACTIVA en el script) -->
+<canvas id="rain"></canvas>
 
 <!-- RUNE RING SVG -->
 <svg class="rune-ring" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -924,6 +983,14 @@
 
 </div>
 
+<!-- 🎵 MÚSICA DE FONDO (tu tema original) -->
+<audio id="bg-music" loop preload="none"
+  src="Bestias_G%C3%A9nesis_Despertar%20de%20la%20Batalla.mp3"></audio>
+<button id="music-toggle" class="music-toggle" type="button"
+  aria-label="Reproducir música de fondo" title="Música de fondo">
+  <span class="music-icon">🎵</span>
+</button>
+
 <script>
 /* ── EMBER PARTICLES ── */
 const canvas = document.getElementById('bg');
@@ -991,6 +1058,76 @@ document.querySelectorAll('.link-btn').forEach(btn => {
 const style = document.createElement('style');
 style.textContent = '@keyframes ripple { to { transform:scale(2.5); opacity:0; } }';
 document.head.appendChild(style);
+
+/* ══════════════════════════════════════════
+   🌧️ LLUVIA
+   ══════════════════════════════════════════ */
+const LLUVIA_ACTIVA = true; // ← poné esto en false si después no la querés
+
+const rainCanvas = document.getElementById('rain');
+const rainCtx    = rainCanvas.getContext('2d');
+let RW, RH;
+
+function resizeRain() {
+  RW = rainCanvas.width  = window.innerWidth;
+  RH = rainCanvas.height = window.innerHeight;
+}
+resizeRain();
+window.addEventListener('resize', resizeRain);
+
+function resetGota(g) {
+  g.x     = Math.random() * RW;
+  g.y     = Math.random() * -RH;
+  g.len   = Math.random() * 16 + 8;
+  g.speed = Math.random() * 6 + 7;
+  g.drift = 2.2;
+  g.alpha = Math.random() * 0.22 + 0.06;
+  return g;
+}
+const gotas = LLUVIA_ACTIVA ? Array.from({length: 110}, () => resetGota({})) : [];
+
+function tickRain() {
+  if (LLUVIA_ACTIVA) {
+    rainCtx.clearRect(0, 0, RW, RH);
+    rainCtx.lineCap = 'round';
+    gotas.forEach(g => {
+      g.x += g.drift;
+      g.y += g.speed;
+      if (g.y > RH) resetGota(g);
+      rainCtx.strokeStyle = `rgba(190,210,255,${g.alpha})`;
+      rainCtx.lineWidth = 1;
+      rainCtx.beginPath();
+      rainCtx.moveTo(g.x, g.y);
+      rainCtx.lineTo(g.x - g.drift * 2, g.y - g.len);
+      rainCtx.stroke();
+    });
+  }
+  requestAnimationFrame(tickRain);
+}
+tickRain();
+
+/* ══════════════════════════════════════════
+   🎵 MÚSICA DE FONDO
+   ══════════════════════════════════════════ */
+const musicBtn = document.getElementById('music-toggle');
+const bgMusic  = document.getElementById('bg-music');
+
+if (musicBtn && bgMusic) {
+  bgMusic.volume = 0.35;
+  const icon = musicBtn.querySelector('.music-icon');
+
+  musicBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play().catch(() => {}); // si el navegador lo bloquea, no rompe nada
+      musicBtn.classList.add('playing');
+      icon.textContent = '🔊';
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      icon.textContent = '🎵';
+    }
+  });
+}
 </script>
 </body>
 </html>
