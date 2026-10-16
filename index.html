@@ -508,6 +508,116 @@
   }
 
   /* ══════════════════════════════════════════
+     🎂 TARJETA DE CUMPLEAÑOS — sección especial
+     ══════════════════════════════════════════ */
+  .bday-section {
+    width: 100%;
+    margin: 0.3rem 0 1.6rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .bday-section .rune-divider { margin-bottom: 0.8rem; }
+  .bday-title {
+    text-align: center;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #fff2b0, #ffd700 40%, #ff8c00 75%, #ff4500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.35rem;
+    filter: drop-shadow(0 0 14px rgba(255,215,0,0.4));
+  }
+  .bday-desc {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: #e8c888;
+    text-align: center;
+    max-width: 360px;
+    margin: 0 auto 1rem;
+    line-height: 1.6;
+  }
+  .bday-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: #fff3cf;
+    padding: 1.2rem 1.4rem;
+    border: 1px solid rgba(255,215,0,0.55);
+    background: linear-gradient(135deg, rgba(255,160,0,0.16), rgba(255,0,140,0.1) 55%, rgba(120,0,255,0.12));
+    clip-path: polygon(14px 0%, 100% 0%, calc(100% - 14px) 100%, 0% 100%);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255,200,0,0.25), inset 0 0 25px rgba(255,120,0,0.08);
+    animation: bdayGlow 2.6s ease-in-out infinite;
+    transition: transform 0.28s cubic-bezier(.2,.8,.3,1), box-shadow 0.28s;
+  }
+  .bday-card:hover {
+    transform: translateY(-3px) scale(1.015);
+    box-shadow: 0 6px 40px rgba(255,200,0,0.4), inset 0 0 25px rgba(255,150,0,0.12);
+  }
+  @keyframes bdayGlow {
+    0%,100% { border-color: rgba(255,215,0,0.5);  box-shadow: 0 0 20px rgba(255,200,0,0.22), inset 0 0 25px rgba(255,120,0,0.08); }
+    50%      { border-color: rgba(255,230,120,0.9); box-shadow: 0 0 36px rgba(255,215,0,0.4),  inset 0 0 25px rgba(255,150,0,0.14); }
+  }
+  .bday-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    animation: bdaySweep 3.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes bdaySweep { 0%,60%,100% { left:-100%; } 80% { left:140%; } }
+  .bday-icon {
+    font-size: 2rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.6));
+    animation: bdayBounce 1.8s ease-in-out infinite;
+  }
+  @keyframes bdayBounce {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-4px) rotate(-6deg); }
+  }
+  .bday-text { flex:1; display:flex; flex-direction:column; gap:0.2rem; }
+  .bday-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: #ffe9ad;
+  }
+  .bday-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    color: #d8b878;
+  }
+  .bday-arrow { font-size: 0.75rem; color: var(--gold); }
+  .bday-spark {
+    position: absolute;
+    border-radius: 50%;
+    background: #ffe9a8;
+    pointer-events: none;
+    opacity: 0;
+    animation: bdaySpark 3.2s ease-in infinite;
+  }
+  .bday-spark:nth-child(4) { left:12%; top:70%; width:3px; height:3px; animation-delay:0s; }
+  .bday-spark:nth-child(5) { left:40%; top:20%; width:2px; height:2px; animation-delay:0.9s; }
+  .bday-spark:nth-child(6) { left:72%; top:65%; width:3px; height:3px; animation-delay:1.8s; }
+  .bday-spark:nth-child(7) { left:90%; top:30%; width:2px; height:2px; animation-delay:2.5s; }
+  @keyframes bdaySpark {
+    0%   { opacity:0; transform: translateY(0) scale(0.6); }
+    15%  { opacity:0.9; }
+    100% { opacity:0; transform: translateY(-26px) scale(1.2); }
+  }
+
+  /* ══════════════════════════════════════════
      🌫️ NIEBLA + 🌧️ LLUVIA + 🎵 MÚSICA
      ══════════════════════════════════════════ */
 
@@ -790,6 +900,27 @@
       <span class="link-arrow">▶</span>
     </a>
 
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       🎂 TARJETA DE CUMPLEAÑOS — sección especial
+       ══════════════════════════════════════════ -->
+  <div class="bday-section">
+    <div class="rune-divider"><span>🎂</span></div>
+    <h2 class="bday-title">Mi Tarjeta de Cumpleaños</h2>
+    <p class="bday-desc">La página que me regalé a mí mismo. Un rincón especial del universo Dragón Primordial, hecho con cariño.</p>
+    <a class="bday-card" href="https://dragonprimordial12-netizen.github.io/Tarjeta-cumple-dragon-primordial-HTML/" target="_blank">
+      <span class="bday-icon">🎂</span>
+      <div class="bday-text">
+        <span class="bday-label">Entrá a la Tarjeta 🐉</span>
+        <span class="bday-sub">Soplá las velitas y mirá la sorpresa 🕯️✨</span>
+      </div>
+      <span class="bday-arrow">▶</span>
+      <span class="bday-spark"></span>
+      <span class="bday-spark"></span>
+      <span class="bday-spark"></span>
+      <span class="bday-spark"></span>
+    </a>
   </div>
 
   <!-- ══════════════════════════════════════════
