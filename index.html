@@ -5,6 +5,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Dragón Primordial — Links oficiales de Bestias y Monstruos en Roblox">
+
+<!-- 🔗 OPEN GRAPH / TWITTER CARD — vista previa linda al compartir el link -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dragonprimordial12-netizen.github.io/Dragon_Primordial/">
+<meta property="og:title" content="🐲 Dragón Primordial 🔥">
+<meta property="og:description" content="Bestias y Monstruos en Roblox · Modelos y scripts a la venta · Todo el universo Dragón Primordial en un solo lugar.">
+<meta property="og:image" content="https://dragonprimordial12-netizen.github.io/Dragon_Primordial/Baner.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🐲 Dragón Primordial 🔥">
+<meta name="twitter:description" content="Bestias y Monstruos en Roblox · Modelos y scripts a la venta · Todo el universo Dragón Primordial en un solo lugar.">
+<meta name="twitter:image" content="https://dragonprimordial12-netizen.github.io/Dragon_Primordial/Baner.jpeg">
+
+<!-- 🐲 FAVICON -->
+<link rel="icon" type="image/jpeg" href="Icono.jpeg">
+
 <title>🐲 · 🔥 Dragón Primordial 🔥</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet">
 <style>
@@ -411,13 +426,38 @@
   .bio-footer {
     margin-top: 2.5rem;
     text-align: center;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: #3a2218;
-    text-transform: uppercase;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
     animation: fadeUp 1s ease both 0.9s;
   }
-  .bio-footer span { color: var(--fire); }
+  .bio-footer .quote-text {
+    display: block;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #d8b878;
+    text-shadow: 0 0 12px rgba(255,140,0,0.15);
+  }
+  .bio-footer .quote-author {
+    display: block;
+    margin-top: 0.6rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fire);
+  }
+  .bio-footer .quote-source {
+    display: block;
+    margin-top: 0.25rem;
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.62rem;
+    letter-spacing: 0.03em;
+    color: #8a6a48;
+  }
 
   /* ── ANIMS ── */
   @keyframes fadeDown { from { opacity:0; transform:translateY(-16px); } to { opacity:1; transform:none; } }
@@ -498,6 +538,52 @@
     margin: 2.4rem 0 0.4rem;
   }
   .mega-divider .rune-divider { margin-bottom: 0.6rem; }
+  /* ══════════════════════════════════════════
+     📰 TIRA DE NOVEDADES
+     ══════════════════════════════════════════ */
+  .news-ticker {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 480px;
+    margin: -0.4rem auto 1.4rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid rgba(255,140,0,0.35);
+    background: rgba(20,10,6,0.55);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    overflow: hidden;
+  }
+  .news-tag {
+    flex-shrink: 0;
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    border-right: 1px solid rgba(255,180,0,0.3);
+    padding-right: 0.6rem;
+  }
+  .news-track-wrap { overflow: hidden; flex: 1; }
+  .news-track {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    width: max-content;
+    white-space: nowrap;
+    animation: newsScroll 18s linear infinite;
+  }
+  .news-item {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    color: #e8c888;
+    letter-spacing: 0.02em;
+  }
+  .news-sep { color: var(--fire); opacity: 0.6; }
+  @keyframes newsScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   .mega-title {
     font-family: 'Cinzel Decorative', serif;
     font-size: clamp(1.1rem, 4.5vw, 1.4rem);
@@ -799,6 +885,21 @@
     <div class="stat">
       <span class="stat-num">∞</span>
       <span class="stat-label">Leyendas</span>
+    </div>
+  </div>
+
+  <!-- 📰 ÚLTIMAS NOVEDADES — editá estos 3 items a mano cada vez que subas algo nuevo -->
+  <div class="news-ticker">
+    <span class="news-tag">NOVEDADES</span>
+    <div class="news-track-wrap">
+      <div class="news-track">
+        <span class="news-item">🎂 Nueva sección: Tarjeta de Cumpleaños</span><span class="news-sep">◆</span>
+        <span class="news-item">🎵 Sonando ahora: "Furia de Pattala"</span><span class="news-sep">◆</span>
+        <span class="news-item">🎬 Último video: Construyendo un videojuego 3D desde cero</span><span class="news-sep">◆</span>
+        <span class="news-item">🎂 Nueva sección: Tarjeta de Cumpleaños</span><span class="news-sep">◆</span>
+        <span class="news-item">🎵 Sonando ahora: "Furia de Pattala"</span><span class="news-sep">◆</span>
+        <span class="news-item">🎬 Último video: Construyendo un videojuego 3D desde cero</span><span class="news-sep">◆</span>
+      </div>
     </div>
   </div>
 
@@ -1282,8 +1383,9 @@
 
   <!-- FOOTER -->
   <p class="bio-footer">
-    <span>🔥 Bestias y Monstruos</span> · Era Salvaje · Roblox<br>
-    Creado por @4UFrancisco
+    <span class="quote-text">«Quien con monstruos lucha cuide de convertirse a su vez en monstruo. Y cuando miras largo tiempo a un abismo, el abismo también mira dentro de ti».</span>
+    <span class="quote-author">— Friedrich Nietzsche</span>
+    <span class="quote-source">Más allá del bien y del mal, 1886</span>
   </p>
 
 </div>
@@ -1508,6 +1610,103 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
     }
   });
   bgMusic.addEventListener('playing', () => { fallosSeguidos = 0; });
+}
+
+/* ══════════════════════════════════════════
+   🥚 EASTER EGG — mensaje escondido en la consola
+   ══════════════════════════════════════════ */
+console.log(
+  '%c🐲 DRAGÓN PRIMORDIAL %c\n\nLo extraordinario no deja de existir porque parezca absurdo.\n¿Andás fisgoneando el código? Me cae bien tu gente.\n→ @dragonprimordial',
+  'color:#ffd700; font-size:20px; font-weight:bold; text-shadow:1px 1px 3px #ff4500;',
+  'color:#ff8c00; font-size:12px; line-height:1.6;'
+);
+
+/* ══════════════════════════════════════════
+   🐉 EASTER EGG — click secreto en el avatar
+   ══════════════════════════════════════════ */
+const eggStyle = document.createElement('style');
+eggStyle.textContent = `
+  @keyframes eggSpark {
+    0%   { opacity:0; transform:translate(0,0) scale(0.5); }
+    15%  { opacity:1; }
+    100% { opacity:0; transform:translate(var(--dx), var(--dy)) scale(1.1); }
+  }
+  @keyframes eggToast {
+    0%   { opacity:0; transform:translate(-50%, 10px); }
+    12%  { opacity:1; transform:translate(-50%, 0); }
+    88%  { opacity:1; transform:translate(-50%, 0); }
+    100% { opacity:0; transform:translate(-50%, -10px); }
+  }
+  .egg-toast {
+    position:fixed; left:50%; bottom:7%;
+    padding:0.7rem 1.2rem;
+    background:rgba(10,6,4,0.94);
+    border:1px solid rgba(255,180,0,0.5);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    color:#ffe9ad;
+    font-family:'IM Fell English', serif;
+    font-style:italic;
+    font-size:0.85rem;
+    text-align:center;
+    max-width:80vw;
+    z-index:999;
+    pointer-events:none;
+    animation: eggToast 2.6s ease forwards;
+  }
+`;
+document.head.appendChild(eggStyle);
+
+const FRASES_SECRETAS = [
+  '🐲 El dragón entreabre un ojo...',
+  '🔥 ¿Sentiste eso? Fue solo el viento. Probablemente.',
+  '✨ Seguís clickeando... me agrada tu curiosidad.',
+  '👁️ Algo te observa desde el abismo.',
+  '🐉 "Lo extraordinario no deja de existir porque parezca absurdo."'
+];
+
+const avatarEl = document.querySelector('.avatar-ring');
+let eggClicks = 0;
+
+function lanzarChispaEgg(origenRect) {
+  const chispa = document.createElement('span');
+  const angulo = Math.random() * Math.PI * 2;
+  const dist   = 40 + Math.random() * 55;
+  chispa.style.cssText = `
+    position:fixed;
+    left:${origenRect.left + origenRect.width / 2}px;
+    top:${origenRect.top + origenRect.height / 2}px;
+    width:${2 + Math.random() * 3}px; height:${2 + Math.random() * 3}px;
+    border-radius:50%;
+    background:#ffd36b;
+    box-shadow:0 0 6px 1px rgba(255,160,0,0.8);
+    pointer-events:none; z-index:998;
+    --dx:${Math.cos(angulo) * dist}px; --dy:${Math.sin(angulo) * dist}px;
+    animation: eggSpark 0.9s ease-out forwards;
+  `;
+  document.body.appendChild(chispa);
+  setTimeout(() => chispa.remove(), 900);
+}
+
+function mostrarToastEgg(texto) {
+  document.querySelectorAll('.egg-toast').forEach(t => t.remove());
+  const toast = document.createElement('div');
+  toast.className = 'egg-toast';
+  toast.textContent = texto;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2600);
+}
+
+if (avatarEl) {
+  avatarEl.style.cursor = 'pointer';
+  avatarEl.addEventListener('click', () => {
+    const rect = avatarEl.getBoundingClientRect();
+    for (let i = 0; i < 14; i++) lanzarChispaEgg(rect);
+    eggClicks++;
+    const frase = eggClicks >= 5
+      ? '🐲🔥 El dragón despertó por completo. Gracias por quedarte hasta acá.'
+      : FRASES_SECRETAS[Math.floor(Math.random() * FRASES_SECRETAS.length)];
+    mostrarToastEgg(frase);
+  });
 }
 </script>
 </body>
