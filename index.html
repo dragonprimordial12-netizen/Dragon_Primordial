@@ -536,6 +536,26 @@
   /* Lluvia: canvas aparte, mismo tratamiento que #bg */
   #rain { position:fixed; inset:0; z-index:0; pointer-events:none; }
 
+  /* Relámpago: flash breve que cubre toda la pantalla */
+  .lightning-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: radial-gradient(ellipse at 50% 8%, rgba(225,235,255,0.95), rgba(150,170,255,0.3) 42%, transparent 75%);
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  .lightning-flash.flash { animation: lightningFlash 0.4s ease-out; }
+  @keyframes lightningFlash {
+    0%   { opacity: 0; }
+    10%  { opacity: 0.85; }
+    18%  { opacity: 0.1; }
+    28%  { opacity: 0.7; }
+    45%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
   /* Panel flotante de música (playlist de 4 pistas) */
   .music-player {
     position: fixed;
@@ -600,6 +620,9 @@
 
 <!-- 🌧️ LLUVIA (se apaga/prende con LLUVIA_ACTIVA en el script) -->
 <canvas id="rain"></canvas>
+
+<!-- ⚡ RELÁMPAGO (se apaga/prende con RAYOS_ACTIVOS en el script) -->
+<div id="lightning-flash" class="lightning-flash"></div>
 
 <!-- RUNE RING SVG -->
 <svg class="rune-ring" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1263,6 +1286,25 @@ function tickRain() {
 tickRain();
 
 /* ══════════════════════════════════════════
+   ⚡ RELÁMPAGOS
+   ══════════════════════════════════════════ */
+const RAYOS_ACTIVOS = true; // ← poné esto en false si después no los querés
+const lightningEl = document.getElementById('lightning-flash');
+
+function programarRayo() {
+  const espera = Math.random() * 10000 + 7000; // entre 7 y 17 segundos
+  setTimeout(() => {
+    if (RAYOS_ACTIVOS && lightningEl) {
+      lightningEl.classList.remove('flash');
+      void lightningEl.offsetWidth; // fuerza reflow para poder repetir la animación
+      lightningEl.classList.add('flash');
+    }
+    programarRayo();
+  }, espera);
+}
+if (RAYOS_ACTIVOS) programarRayo();
+
+/* ══════════════════════════════════════════
    🎵 MÚSICA DE FONDO — playlist de 4 temas
    ══════════════════════════════════════════ */
 const PISTAS = [
@@ -1281,17 +1323,26 @@ const trackNameEl = document.getElementById('music-track-name');
 if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
   bgMusic.volume = 0.35;
   const icon = musicBtn.querySelector('.music-icon');
-  let pistaActual = 1; // arranca en "Despertar de la Batalla"
+  let pistaActual   = 1; // arranca en "Despertar de la Batalla"
+  let fallosSeguidos = 0;
+
+  function marcarSonando(sonando) {
+    musicBtn.classList.toggle('playing', sonando);
+    icon.textContent = sonando ? '🔊' : '🎵';
+  }
 
   function cargarPista(indice, reproducir) {
     pistaActual = (indice + PISTAS.length) % PISTAS.length;
     const pista = PISTAS[pistaActual];
     bgMusic.src = pista.archivo;
+    bgMusic.load(); // fuerza al navegador a tomar la nueva fuente
     trackNameEl.textContent = pista.nombre;
-    if (reproducir) {
-      bgMusic.play().catch(() => {});
-      musicBtn.classList.add('playing');
-      icon.textContent = '🔊';
+
+    if (!reproducir) { marcarSonando(false); return; }
+
+    const intento = bgMusic.play();
+    if (intento !== undefined) {
+      intento.then(() => marcarSonando(true)).catch(() => marcarSonando(false));
     }
   }
 
@@ -1299,13 +1350,13 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
 
   musicBtn.addEventListener('click', () => {
     if (bgMusic.paused) {
-      bgMusic.play().catch(() => {});
-      musicBtn.classList.add('playing');
-      icon.textContent = '🔊';
+      const intento = bgMusic.play();
+      if (intento !== undefined) {
+        intento.then(() => marcarSonando(true)).catch(() => marcarSonando(false));
+      }
     } else {
       bgMusic.pause();
-      musicBtn.classList.remove('playing');
-      icon.textContent = '🎵';
+      marcarSonando(false);
     }
   });
 
@@ -1314,6 +1365,18 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
 
   // cuando termina una pista, pasa sola a la siguiente (loop de playlist, no de una sola canción)
   bgMusic.addEventListener('ended', () => cargarPista(pistaActual + 1, true));
+
+  // si una pista no carga (ej. nombre de archivo que no coincide en el repo),
+  // avisa un instante y prueba la siguiente en vez de quedarse "sonando" en silencio
+  bgMusic.addEventListener('error', () => {
+    marcarSonando(false);
+    trackNameEl.textContent = '⚠ ' + PISTAS[pistaActual].nombre + ' no se encontró';
+    fallosSeguidos++;
+    if (fallosSeguidos < PISTAS.length) {
+      setTimeout(() => cargarPista(pistaActual + 1, true), 900);
+    }
+  });
+  bgMusic.addEventListener('playing', () => { fallosSeguidos = 0; });
 }
 </script>
 </body>
