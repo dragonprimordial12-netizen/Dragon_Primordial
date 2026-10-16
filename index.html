@@ -137,6 +137,74 @@
     border: 2px solid rgba(0,0,0,0.6);
   }
 
+  /* ── 🔥 FUEGO ALREDEDOR DEL TÍTULO ── */
+  .fire-title {
+    position: relative;
+    display: inline-block;
+  }
+  .fire-title::before,
+  .fire-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .fire-title::before {
+    width: 135%;
+    height: 230%;
+    background: radial-gradient(ellipse at center, rgba(255,110,0,0.4), rgba(255,30,0,0.12) 45%, transparent 72%);
+    filter: blur(16px);
+    animation: firepulse 2.3s ease-in-out infinite;
+  }
+  .fire-title::after {
+    width: 105%;
+    height: 170%;
+    background: radial-gradient(ellipse at center, rgba(255,210,0,0.35), transparent 62%);
+    filter: blur(9px);
+    animation: firepulse 1.6s ease-in-out infinite reverse;
+  }
+  @keyframes firepulse {
+    0%,100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.94); }
+    50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  /* ── 🎬 VIDEO DESTACADO ── */
+  .video-card {
+    width: 100%;
+    margin: 0.3rem 0 1.5rem;
+    animation: fadeUp 0.7s ease both;
+    animation-delay: 0.08s;
+  }
+  .video-frame {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,140,0,0.35);
+    box-shadow: 0 0 24px rgba(255,80,0,0.25), inset 0 0 20px rgba(0,0,0,0.6);
+  }
+  .video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .video-caption {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.85;
+  }
+
   /* ── NAME & TAGLINE ── */
   .profile-name {
     font-family: 'Cinzel Decorative', serif;
@@ -468,27 +536,56 @@
   /* Lluvia: canvas aparte, mismo tratamiento que #bg */
   #rain { position:fixed; inset:0; z-index:0; pointer-events:none; }
 
-  /* Botón flotante de música de fondo */
-  .music-toggle {
+  /* Panel flotante de música (playlist de 4 pistas) */
+  .music-player {
     position: fixed;
     right: 1.1rem;
     bottom: 1.1rem;
     z-index: 50;
-    width: 50px; height: 50px;
-    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 18px;
     border: 1px solid rgba(255,140,0,0.4);
-    background: radial-gradient(circle at 35% 35%, #1a0830, #060310);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(255,100,0,0.35), inset 0 0 12px rgba(0,0,0,0.8);
-    transition: transform 0.2s ease;
+    background: radial-gradient(circle at 35% 20%, #1a0830, #060310 80%);
+    box-shadow: 0 0 20px rgba(255,100,0,0.3), inset 0 0 12px rgba(0,0,0,0.8);
   }
-  .music-toggle:hover { transform: scale(1.08); }
-  .music-toggle.playing { animation: musicpulse 2.4s ease-in-out infinite; border-color: var(--gold); }
+  .music-track-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.03em;
+    color: var(--gold);
+    opacity: 0.85;
+    max-width: 118px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .music-controls { display: flex; align-items: center; gap: 0.35rem; }
+  .music-btn {
+    background: transparent;
+    border: none;
+    color: #ffb347;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  .music-btn:hover { background: rgba(255,140,0,0.18); transform: scale(1.1); }
+  .music-btn-main {
+    width: 42px; height: 42px;
+    font-size: 1.25rem;
+    border: 1px solid rgba(255,140,0,0.4);
+  }
+  .music-btn-main.playing { animation: musicpulse 2.4s ease-in-out infinite; border-color: var(--gold); }
   @keyframes musicpulse {
-    0%,100% { box-shadow: 0 0 20px rgba(255,100,0,0.35), inset 0 0 12px rgba(0,0,0,0.8); }
-    50%      { box-shadow: 0 0 36px rgba(255,180,0,0.7),  inset 0 0 12px rgba(0,0,0,0.8); }
+    0%,100% { box-shadow: 0 0 10px rgba(255,100,0,0.3); }
+    50%      { box-shadow: 0 0 22px rgba(255,180,0,0.75); }
   }
 </style>
 </head>
@@ -548,7 +645,9 @@
   </div>
 
   <!-- NAME -->
-  <h1 class="profile-name">Dragón Primordial</h1>
+  <div class="fire-title">
+    <h1 class="profile-name">Dragón Primordial</h1>
+  </div>
   <p class="profile-handle">@dragonprimordial · Creador Roblox</p>
   <p class="profile-bio">
     Lo extraordinario no deja de existir porque parezca absurdo 🗣️👻
@@ -568,6 +667,19 @@
       <span class="stat-num">∞</span>
       <span class="stat-label">Leyendas</span>
     </div>
+  </div>
+
+  <!-- 🎬 VIDEO DESTACADO -->
+  <div class="video-card">
+    <div class="video-frame">
+      <iframe
+        src="https://www.youtube.com/embed/o0zru-BMx6s"
+        title="Dragón Primordial — video"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+    <p class="video-caption">🎬 Último video en mi canal</p>
   </div>
 
   <div class="rune-divider"><span>⚔</span></div>
@@ -596,7 +708,7 @@
     </a>
 
     <!-- YOUTUBE -->
-    <a class="link-btn" href="https://www.youtube.com/@Drag%C3%B3nPrimordial" target="_blank">
+    <a class="link-btn" href="https://www.youtube.com/@dragonprimordial" target="_blank">
       <span class="link-icon">▶️</span>
       <div class="link-text">
         <span class="link-label">YouTube</span>
@@ -1022,13 +1134,18 @@
 
 </div>
 
-<!-- 🎵 MÚSICA DE FONDO (tu tema original) -->
-<audio id="bg-music" loop preload="none"
-  src="Bestias_G%C3%A9nesis_Despertar%20de%20la%20Batalla.mp3"></audio>
-<button id="music-toggle" class="music-toggle" type="button"
-  aria-label="Reproducir música de fondo" title="Música de fondo">
-  <span class="music-icon">🎵</span>
-</button>
+<!-- 🎵 MÚSICA DE FONDO (playlist con tus 4 temas) -->
+<audio id="bg-music" preload="none"></audio>
+<div class="music-player">
+  <span id="music-track-name" class="music-track-name">—</span>
+  <div class="music-controls">
+    <button id="music-prev" class="music-btn" type="button" aria-label="Pista anterior" title="Pista anterior">⏮</button>
+    <button id="music-toggle" class="music-btn music-btn-main" type="button" aria-label="Reproducir / pausar" title="Reproducir / pausar">
+      <span class="music-icon">🎵</span>
+    </button>
+    <button id="music-next" class="music-btn" type="button" aria-label="Pista siguiente" title="Pista siguiente">⏭</button>
+  </div>
+</div>
 
 <script>
 /* ── EMBER PARTICLES ── */
@@ -1146,18 +1263,43 @@ function tickRain() {
 tickRain();
 
 /* ══════════════════════════════════════════
-   🎵 MÚSICA DE FONDO
+   🎵 MÚSICA DE FONDO — playlist de 4 temas
    ══════════════════════════════════════════ */
-const musicBtn = document.getElementById('music-toggle');
-const bgMusic  = document.getElementById('bg-music');
+const PISTAS = [
+  { nombre: 'Antes de la Batalla',      archivo: 'Bestias_G%C3%A9nesis_Antes%20de%20la%20Batalla.mp3' },
+  { nombre: 'Despertar de la Batalla',  archivo: 'Bestias_G%C3%A9nesis_Despertar%20de%20la%20Batalla.mp3' },
+  { nombre: 'Furia de Pattalla',        archivo: 'Bestias_G%C3%A9nesis_Furia%20de%20Pattalla.mp3' },
+  { nombre: 'Pattalla Sound Effect',    archivo: 'Bestias_G%C3%A9nesis_Pattalla%20Sound%20Effect.mp3' }
+];
 
-if (musicBtn && bgMusic) {
+const bgMusic     = document.getElementById('bg-music');
+const musicBtn    = document.getElementById('music-toggle');
+const prevBtn     = document.getElementById('music-prev');
+const nextBtn     = document.getElementById('music-next');
+const trackNameEl = document.getElementById('music-track-name');
+
+if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
   bgMusic.volume = 0.35;
   const icon = musicBtn.querySelector('.music-icon');
+  let pistaActual = 1; // arranca en "Despertar de la Batalla"
+
+  function cargarPista(indice, reproducir) {
+    pistaActual = (indice + PISTAS.length) % PISTAS.length;
+    const pista = PISTAS[pistaActual];
+    bgMusic.src = pista.archivo;
+    trackNameEl.textContent = pista.nombre;
+    if (reproducir) {
+      bgMusic.play().catch(() => {});
+      musicBtn.classList.add('playing');
+      icon.textContent = '🔊';
+    }
+  }
+
+  cargarPista(pistaActual, false); // carga la primera pista sin reproducir (autoplay bloqueado por el navegador)
 
   musicBtn.addEventListener('click', () => {
     if (bgMusic.paused) {
-      bgMusic.play().catch(() => {}); // si el navegador lo bloquea, no rompe nada
+      bgMusic.play().catch(() => {});
       musicBtn.classList.add('playing');
       icon.textContent = '🔊';
     } else {
@@ -1166,6 +1308,12 @@ if (musicBtn && bgMusic) {
       icon.textContent = '🎵';
     }
   });
+
+  prevBtn.addEventListener('click', () => cargarPista(pistaActual - 1, musicBtn.classList.contains('playing')));
+  nextBtn.addEventListener('click', () => cargarPista(pistaActual + 1, musicBtn.classList.contains('playing')));
+
+  // cuando termina una pista, pasa sola a la siguiente (loop de playlist, no de una sola canción)
+  bgMusic.addEventListener('ended', () => cargarPista(pistaActual + 1, true));
 }
 </script>
 </body>
