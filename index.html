@@ -31,9 +31,45 @@
     --mid:    #100818;
     --blood:  #7a0000;
     --glow:   rgba(255,100,0,0.18);
+
+    /* usadas por gradientes/sombras puntuales — cambian con el tema */
+    --grad1: #ffe680; --grad2: #ff8c00; --grad3: #ff2200; --grad4: #cc00ff;
+    --bday1: #fff2b0; --bday2: #ffd700; --bday3: #ff8c00; --bday4: #ff4500;
+    --ring1: #ff4500; --ring2: #ff8c00; --ring3: #ffd700; --ring4: #ff2200; --ring5: #9b00ff;
+    --glow-soft: rgba(255,100,0,0.5);
+    --glow-text: rgba(255,215,0,0.4);
+    --link-border: rgba(255,100,0,0.2);
+    --link-bg:     rgba(255,60,0,0.04);
+  }
+
+  /* ══════════════════════════════════════════
+     🩸 TEMA CORRUPCIÓN — paleta alterna del switch
+     ══════════════════════════════════════════ */
+  [data-theme="corrupcion"] {
+    --fire:   #c026d3;
+    --ember:  #7c1fa2;
+    --gold:   #e9b8ff;
+    --dark:   #04020a;
+    --mid:    #0c0613;
+    --blood:  #3f0a1f;
+    --glow:   rgba(180,0,200,0.18);
+
+    --grad1: #f3c6ff; --grad2: #c026d3; --grad3: #7c1fa2; --grad4: #4c0519;
+    --bday1: #f3c6ff; --bday2: #e9b8ff; --bday3: #c026d3; --bday4: #4c0519;
+    --ring1: #c026d3; --ring2: #7c1fa2; --ring3: #e9b8ff; --ring4: #4c0519; --ring5: #2dd4bf;
+    --glow-soft: rgba(192,38,211,0.5);
+    --glow-text: rgba(233,184,255,0.4);
+    --link-border: rgba(192,38,211,0.25);
+    --link-bg:     rgba(124,31,162,0.06);
   }
 
   *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { transition: background-color 0.5s ease; }
+  body, .link-btn, .profile-name, .avatar-ring, .mega-title, .bday-title,
+  .stat-num, .link-icon, .tema-switch, .tema-switch-knob, .tema-switch-knob::before {
+    transition: background-color 0.5s ease, border-color 0.5s ease,
+                color 0.5s ease, filter 0.5s ease, left 0.35s cubic-bezier(.4,1.6,.4,1);
+  }
   html { scroll-behavior:smooth; }
 
   body {
@@ -126,14 +162,14 @@
     width: 110px; height: 110px;
     border-radius: 50%;
     background: conic-gradient(
-      #ff4500 0deg, #ff8c00 60deg, #ffd700 120deg,
-      #ff2200 200deg, #9b00ff 280deg, #ff4500 360deg
+      var(--ring1) 0deg, var(--ring2) 60deg, var(--ring3) 120deg,
+      var(--ring4) 200deg, var(--ring5) 280deg, var(--ring1) 360deg
     );
     padding: 3px;
     display: flex; align-items: center; justify-content: center;
     box-shadow:
-      0 0 30px rgba(255,100,0,0.5),
-      0 0 60px rgba(255,60,0,0.25),
+      0 0 30px var(--glow-soft),
+      0 0 60px var(--glow),
       inset 0 0 20px rgba(0,0,0,0.8);
     animation: ringpulse 3s ease-in-out infinite;
   }
@@ -225,13 +261,13 @@
     font-family: 'Cinzel Decorative', serif;
     font-size: clamp(1.3rem, 5vw, 1.8rem);
     font-weight: 900;
-    background: linear-gradient(135deg, #ffe680, #ff8c00 45%, #ff2200 80%, #cc00ff);
+    background: linear-gradient(135deg, var(--grad1), var(--grad2) 45%, var(--grad3) 80%, var(--grad4));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 0.04em;
     text-align: center;
-    filter: drop-shadow(0 0 20px rgba(255,100,0,0.4));
+    filter: drop-shadow(0 0 20px var(--glow-soft));
     margin-bottom: 0.35rem;
     animation: fadeDown 0.8s ease both;
   }
@@ -286,8 +322,8 @@
     gap: 1rem;
     text-decoration: none;
     padding: 1rem 1.4rem;
-    border: 1px solid rgba(255,100,0,0.2);
-    background: rgba(255,60,0,0.04);
+    border: 1px solid var(--link-border);
+    background: var(--link-bg);
     color: #d4b88a;
     transition: all 0.28s cubic-bezier(.2,.8,.3,1);
     overflow: hidden;
@@ -360,7 +396,7 @@
     font-size: 1.5rem;
     min-width: 2rem;
     text-align: center;
-    filter: drop-shadow(0 0 6px rgba(255,150,0,0.4));
+    filter: drop-shadow(0 0 6px var(--glow-text));
     transition: transform 0.25s;
   }
   .link-btn:hover .link-icon { transform: scale(1.15) rotate(-5deg); }
@@ -413,7 +449,7 @@
     font-family: 'Cinzel Decorative', serif;
     font-size: 1.1rem;
     color: var(--gold);
-    text-shadow: 0 0 12px rgba(255,215,0,0.4);
+    text-shadow: 0 0 12px var(--glow-text);
   }
   .stat-label {
     font-size: 0.55rem;
@@ -589,7 +625,7 @@
     font-size: clamp(1.1rem, 4.5vw, 1.4rem);
     font-weight: 900;
     color: var(--gold);
-    text-shadow: 0 0 20px rgba(255,215,0,0.35);
+    text-shadow: 0 0 20px var(--glow-text);
     letter-spacing: 0.05em;
   }
 
@@ -607,13 +643,13 @@
     font-family: 'Cinzel Decorative', serif;
     font-size: clamp(1rem, 4vw, 1.25rem);
     font-weight: 900;
-    background: linear-gradient(135deg, #fff2b0, #ffd700 40%, #ff8c00 75%, #ff4500);
+    background: linear-gradient(135deg, var(--bday1), var(--bday2) 40%, var(--bday3) 75%, var(--bday4));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 0.04em;
     margin-bottom: 0.35rem;
-    filter: drop-shadow(0 0 14px rgba(255,215,0,0.4));
+    filter: drop-shadow(0 0 14px var(--glow-text));
   }
   .bday-desc {
     font-family: 'IM Fell English', serif;
@@ -803,6 +839,57 @@
     0%,100% { box-shadow: 0 0 10px rgba(255,100,0,0.3); }
     50%      { box-shadow: 0 0 22px rgba(255,180,0,0.75); }
   }
+
+  /* ══════════════════════════════════════════
+     🔥↔️🩸 SWITCH DE TEMA — Fuego / Corrupción
+     ══════════════════════════════════════════ */
+  .tema-switch {
+    position: fixed;
+    top: 1rem; right: 1rem;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.55rem;
+    border: 1px solid var(--link-border);
+    background: rgba(10,6,8,0.55);
+    backdrop-filter: blur(6px);
+    border-radius: 999px;
+    cursor: pointer;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tema-switch-icon {
+    font-size: 0.8rem;
+    line-height: 1;
+    opacity: 0.35;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .tema-switch:not(.activo) .tema-fuego  { opacity: 1; transform: scale(1.15); }
+  .tema-switch.activo       .tema-corrupcion { opacity: 1; transform: scale(1.15); }
+  .tema-switch-knob {
+    width: 30px; height: 16px;
+    border-radius: 999px;
+    background: var(--mid);
+    border: 1px solid var(--fire);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .tema-switch-knob::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 2px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--fire);
+    box-shadow: 0 0 8px var(--fire);
+    transform: translateY(-50%);
+    transition: left 0.35s cubic-bezier(.4,1.6,.4,1), background-color 0.4s ease;
+  }
+  .tema-switch.activo .tema-switch-knob::before { left: 16px; }
+  @media (max-width: 480px) {
+    .tema-switch { top: 0.6rem; right: 0.6rem; padding: 0.3rem 0.45rem; }
+  }
 </style>
 </head>
 <body>
@@ -846,6 +933,13 @@
   <polygon points="200,340 70,120 330,120" stroke="#ff4500" stroke-width="0.6" fill="none" opacity="0.6"/>
   <circle cx="200" cy="200" r="30" stroke="#ffd700" stroke-width="0.5" stroke-dasharray="3 3" opacity="0.8"/>
 </svg>
+
+<!-- 🔥↔️🩸 SWITCH DE TEMA -->
+<button id="tema-switch" class="tema-switch" type="button" title="Cambiar tema: Fuego / Corrupción" aria-label="Cambiar tema: Fuego o Corrupción">
+  <span class="tema-switch-icon tema-fuego">🔥</span>
+  <span class="tema-switch-knob"></span>
+  <span class="tema-switch-icon tema-corrupcion">🩸</span>
+</button>
 
 <!-- 🖼️ BANNER -->
 <div class="banner-wrap">
@@ -1404,6 +1498,11 @@
 </div>
 
 <script>
+/* ── TEMA (se declara primero: lo usan las brasas de abajo) ── */
+const TEMA_KEY = 'dp_tema';
+let temaActual = localStorage.getItem(TEMA_KEY) === 'corrupcion' ? 'corrupcion' : 'fuego';
+document.documentElement.setAttribute('data-theme', temaActual);
+
 /* ── EMBER PARTICLES ── */
 const canvas = document.getElementById('bg');
 const ctx    = canvas.getContext('2d');
@@ -1425,7 +1524,7 @@ function reset(e) {
   e.speed = Math.random() * 0.7 + 0.15;
   e.drift = (Math.random() - 0.5) * 0.35;
   e.alpha = Math.random() * 0.5 + 0.1;
-  e.hue   = Math.random() * 40 + 5;
+  e.hue   = temaActual === 'corrupcion' ? (Math.random() * 50 + 280) : (Math.random() * 40 + 5);
   return e;
 }
 
@@ -1610,6 +1709,25 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
     }
   });
   bgMusic.addEventListener('playing', () => { fallosSeguidos = 0; });
+}
+
+/* ══════════════════════════════════════════
+   🔥↔️🩸 SWITCH DE TEMA — botón + repintado en vivo
+   ══════════════════════════════════════════ */
+function aplicarTema(tema) {
+  temaActual = tema;
+  document.documentElement.setAttribute('data-theme', tema);
+  localStorage.setItem(TEMA_KEY, tema);
+  if (temaSwitchBtn) temaSwitchBtn.classList.toggle('activo', tema === 'corrupcion');
+  embers.forEach(e => reset(e)); // repinta las brasas ya en pantalla al toque
+}
+
+const temaSwitchBtn = document.getElementById('tema-switch');
+if (temaSwitchBtn) {
+  temaSwitchBtn.classList.toggle('activo', temaActual === 'corrupcion'); // estado inicial del botón
+  temaSwitchBtn.addEventListener('click', () => {
+    aplicarTema(temaActual === 'fuego' ? 'corrupcion' : 'fuego');
+  });
 }
 
 /* ══════════════════════════════════════════
