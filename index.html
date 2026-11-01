@@ -1012,8 +1012,11 @@
     border: 2px solid rgba(255,120,0,0.35);
     animation: introSpin 2.6s linear infinite, ringpulse 3s ease-in-out infinite;
   }
-  .intro-dragon {
-    font-size: 2.6rem; display: inline-block;
+  .intro-icon {
+    width: 62px; height: 62px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: inline-block;
     filter: drop-shadow(0 0 14px rgba(255,140,0,0.7));
     animation: introFloat 1.8s ease-in-out infinite;
   }
@@ -1102,7 +1105,7 @@
 <!-- 🐲 INTRO — el dragón despierta -->
 <div id="intro-loader" class="intro-loader" aria-hidden="true">
   <div class="intro-content">
-    <div class="intro-ring"><span class="intro-dragon">🐲</span></div>
+    <div class="intro-ring"><img class="intro-icon" src="Icono.jpeg" alt="Dragón Primordial"></div>
     <div class="intro-title">DRAGÓN PRIMORDIAL</div>
     <div class="intro-bar"><div class="intro-bar-fill"></div></div>
   </div>
@@ -1196,8 +1199,8 @@
       <span class="stat-label">Monstruos</span>
     </div>
     <div class="stat">
-      <span class="stat-num">1</span>
-      <span class="stat-label">Proyectos</span>
+      <span class="stat-num">5</span>
+      <span class="stat-label">Bestias Génesis</span>
     </div>
   </div>
 
