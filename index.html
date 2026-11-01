@@ -1103,6 +1103,19 @@
     clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
   }
 
+  /* 🧩 Esquirlas que vuelan desde afuera y convergen hasta formar la tarjeta */
+  .frag-shard {
+    position: fixed;
+    top: 0; left: 0;
+    width: 11px; height: 11px;
+    background: linear-gradient(135deg, var(--gold), var(--fire));
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    box-shadow: 0 0 8px var(--glow-soft), 0 0 18px var(--glow);
+    pointer-events: none;
+    z-index: 40;
+    transition: transform .55s cubic-bezier(.3,.7,.2,1), opacity .55s ease;
+  }
+
   /* 🧭 Nav activa (scrollspy) */
   .cat-nav a.active {
     border-color: var(--gold);
@@ -2294,12 +2307,33 @@ actualizarScroll();
 if (backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 /* ── 👁️ REVELADO AL HACER SCROLL (secciones del bloque ATOMBIO) ── */
-// 💥 Ráfaga de esquirlas/chispas sobre una tarjeta justo cuando se arma en pantalla
+// 🧩 Esquirlas reales que nacen dispersas alrededor de la tarjeta y vuelan convergiendo hasta formarla
 function estallarFragmentos(el) {
   if (prefersReducedMotion) return;
   const rect = el.getBoundingClientRect();
-  for (let i = 0; i < 7; i++) {
-    spawnChispa(rect.left + Math.random() * rect.width, rect.top + Math.random() * rect.height);
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const cantidad = 8;
+  for (let i = 0; i < cantidad; i++) {
+    const angulo     = (Math.PI * 2 / cantidad) * i + (Math.random() * 0.6 - 0.3);
+    const distancia  = 70 + Math.random() * 100;
+    const dx         = Math.cos(angulo) * distancia;
+    const dy         = Math.sin(angulo) * distancia;
+    const giroInicial = Math.random() * 360 - 180;
+
+    const esquirla = document.createElement('span');
+    esquirla.className = 'frag-shard';
+    esquirla.style.left = cx + 'px';
+    esquirla.style.top  = cy + 'px';
+    esquirla.style.opacity = '1';
+    esquirla.style.transform = `translate(${dx}px, ${dy}px) rotate(${giroInicial}deg) scale(1)`;
+    document.body.appendChild(esquirla);
+
+    void esquirla.offsetWidth; // fuerza el reflow para que arranque desde la posición dispersa antes de converger
+
+    esquirla.style.transform = 'translate(0, 0) rotate(0deg) scale(0.2)';
+    esquirla.style.opacity = '0';
+    setTimeout(() => esquirla.remove(), 600);
   }
 }
 const revealObserver = new IntersectionObserver((entries, obs) => {
