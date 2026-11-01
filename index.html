@@ -1081,6 +1081,9 @@
   }
   .reveal.visible { opacity: 1; transform: none; }
 
+  /* Los ítems con revelado por scroll usan su propia transición — anulamos su animación de carga para que no choquen */
+  .link-btn.reveal, .qr-card.reveal, .countdown-card.reveal { animation: none; }
+
   /* 🧭 Nav activa (scrollspy) */
   .cat-nav a.active {
     border-color: var(--gold);
@@ -2286,8 +2289,12 @@ document.querySelectorAll('.section-header').forEach(header => {
   revealObserver.observe(header);
   const hermano = header.nextElementSibling;
   if (hermano && hermano.classList.contains('links')) {
-    hermano.classList.add('reveal');
-    revealObserver.observe(hermano);
+    // 🌊 Cascada: cada botón/tarjeta del bloque aparece con un pequeño retraso respecto al anterior
+    Array.from(hermano.children).forEach((item, i) => {
+      item.classList.add('reveal');
+      item.style.transitionDelay = (Math.min(i, 6) * 70) + 'ms';
+      revealObserver.observe(item);
+    });
   }
 });
 
