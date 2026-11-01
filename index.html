@@ -901,9 +901,124 @@
   @media (max-width: 480px) {
     .tema-switch { top: 0.6rem; right: 0.6rem; padding: 0.3rem 0.45rem; }
   }
+
+  /* ══════════════════════════════════════════
+     🆙 NIVEL 2 — efectos nuevos
+     ══════════════════════════════════════════ */
+
+  /* 🐲 Intro: el dragón despierta */
+  .intro-loader {
+    position: fixed; inset: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle at 50% 42%, #1a0a05, var(--dark) 72%);
+    transition: opacity .6s ease, visibility .6s ease;
+  }
+  .intro-loader.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+  .intro-content { display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
+  .intro-ring {
+    width: 88px; height: 88px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid rgba(255,120,0,0.35);
+    animation: introSpin 2.6s linear infinite, ringpulse 3s ease-in-out infinite;
+  }
+  .intro-dragon {
+    font-size: 2.6rem; display: inline-block;
+    filter: drop-shadow(0 0 14px rgba(255,140,0,0.7));
+    animation: introFloat 1.8s ease-in-out infinite;
+  }
+  @keyframes introSpin  { to { transform: rotate(360deg); } }
+  @keyframes introFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(-8deg); } }
+  .intro-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: 900;
+    font-size: 0.92rem;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    text-shadow: 0 0 16px var(--glow-text);
+  }
+  .intro-bar { width: 160px; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.08); overflow: hidden; }
+  .intro-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--fire), var(--gold)); animation: introLoad 1.3s ease-in-out forwards; }
+  @keyframes introLoad { to { width: 100%; } }
+
+  /* 📊 Barra de progreso de scroll */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--fire), var(--gold));
+    box-shadow: 0 0 8px var(--glow-soft);
+    z-index: 70;
+    pointer-events: none;
+  }
+
+  /* 🌗 Flash de transición al cambiar de tema */
+  .theme-flash {
+    position: fixed; inset: 0; z-index: 45;
+    opacity: 0;
+    background: radial-gradient(circle at top right, var(--flash-color, rgba(255,120,0,0.5)), transparent 62%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .theme-flash.flash { animation: themeFlash 0.65s ease-out; }
+  @keyframes themeFlash { 0% { opacity:0; } 18% { opacity:1; } 100% { opacity:0; } }
+
+  /* ⬆️ Botón volver arriba */
+  .back-to-top {
+    position: fixed; left: 1.1rem; bottom: 1.1rem; z-index: 50;
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,140,0,0.4);
+    background: radial-gradient(circle at 35% 20%, #1a0830, #060310 80%);
+    box-shadow: 0 0 16px rgba(255,100,0,0.25), inset 0 0 10px rgba(0,0,0,0.8);
+    color: #ffb347; font-size: 1.05rem; cursor: pointer;
+    opacity: 0; transform: translateY(8px); pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease, background .2s ease;
+  }
+  .back-to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .back-to-top:hover { background: rgba(255,140,0,0.18); transform: translateY(-2px) scale(1.06); }
+  @media (max-width: 480px) {
+    .back-to-top { left: 0.7rem; bottom: 0.7rem; width: 38px; height: 38px; }
+  }
+
+  /* 👁️ Revelado al hacer scroll (secciones ATOMBIO) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* 🧭 Nav activa (scrollspy) */
+  .cat-nav a.active {
+    border-color: var(--gold);
+    color: #ffe8b8;
+    background: rgba(255,140,0,0.22);
+    box-shadow: 0 0 12px rgba(255,160,0,0.35);
+  }
+
+  /* 🔥 Chispas de cursor / clic */
+  @keyframes cursorEmberRise {
+    0%   { opacity: 0.9; transform: translate(0,0) scale(1); }
+    100% { opacity: 0;   transform: translate(var(--dx), -28px) scale(0.35); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-loader { display: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
 </style>
 </head>
 <body>
+
+<!-- 🐲 INTRO — el dragón despierta -->
+<div id="intro-loader" class="intro-loader" aria-hidden="true">
+  <div class="intro-content">
+    <div class="intro-ring"><span class="intro-dragon">🐲</span></div>
+    <div class="intro-title">DRAGÓN PRIMORDIAL</div>
+    <div class="intro-bar"><div class="intro-bar-fill"></div></div>
+  </div>
+</div>
+
+<!-- 📊 BARRA DE PROGRESO DE SCROLL -->
+<div id="scroll-progress" class="scroll-progress"></div>
 
 <!-- PARTICLE CANVAS (brasas) -->
 <canvas id="bg"></canvas>
@@ -917,6 +1032,9 @@
 
 <!-- ⚡ RELÁMPAGO (se apaga/prende con RAYOS_ACTIVOS en el script) -->
 <div id="lightning-flash" class="lightning-flash"></div>
+
+<!-- 🌗 FLASH AL CAMBIAR DE TEMA -->
+<div id="theme-flash" class="theme-flash"></div>
 
 <!-- RUNE RING SVG -->
 <svg class="rune-ring" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1645,6 +1763,9 @@
   </div>
 </div>
 
+<!-- ⬆️ VOLVER ARRIBA -->
+<button id="back-to-top" class="back-to-top" type="button" aria-label="Volver arriba" title="Volver arriba">⬆</button>
+
 <script>
 /* ── TEMA (se declara primero: lo usan las brasas de abajo) ── */
 const TEMA_KEY = 'dp_tema';
@@ -1862,12 +1983,19 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
 /* ══════════════════════════════════════════
    🔥↔️🩸 SWITCH DE TEMA — botón + repintado en vivo
    ══════════════════════════════════════════ */
+const themeFlashEl = document.getElementById('theme-flash');
 function aplicarTema(tema) {
   temaActual = tema;
   document.documentElement.setAttribute('data-theme', tema);
   localStorage.setItem(TEMA_KEY, tema);
   if (temaSwitchBtn) temaSwitchBtn.classList.toggle('activo', tema === 'corrupcion');
   embers.forEach(e => reset(e)); // repinta las brasas ya en pantalla al toque
+  if (themeFlashEl) {
+    themeFlashEl.style.setProperty('--flash-color', tema === 'corrupcion' ? 'rgba(192,38,211,0.55)' : 'rgba(255,120,0,0.5)');
+    themeFlashEl.classList.remove('flash');
+    void themeFlashEl.offsetWidth; // fuerza reflow para poder repetir la animación
+    themeFlashEl.classList.add('flash');
+  }
 }
 
 const temaSwitchBtn = document.getElementById('tema-switch');
@@ -1972,6 +2100,166 @@ if (avatarEl) {
       ? '🐲🔥 El dragón despertó por completo. Gracias por quedarte hasta acá.'
       : FRASES_SECRETAS[Math.floor(Math.random() * FRASES_SECRETAS.length)];
     mostrarToastEgg(frase);
+  });
+}
+
+/* ══════════════════════════════════════════
+   🆙 NIVEL 2 — efectos nuevos
+   ══════════════════════════════════════════ */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hoverFino = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* ── 🐲 INTRO: el dragón despierta (una vez por sesión) ── */
+(function initIntro() {
+  const loader = document.getElementById('intro-loader');
+  if (!loader) return;
+  if (prefersReducedMotion || sessionStorage.getItem('dp_intro_visto')) {
+    loader.remove();
+    return;
+  }
+  setTimeout(() => {
+    loader.classList.add('hide');
+    sessionStorage.setItem('dp_intro_visto', '1');
+    setTimeout(() => loader.remove(), 700);
+  }, 1300);
+})();
+
+/* ── 📊 BARRA DE PROGRESO + ⬆️ VOLVER ARRIBA (un solo listener de scroll, con rAF) ── */
+const scrollProgressEl = document.getElementById('scroll-progress');
+const backToTopBtn      = document.getElementById('back-to-top');
+let scrollTicking = false;
+function actualizarScroll() {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  if (scrollProgressEl) scrollProgressEl.style.width = pct + '%';
+  if (backToTopBtn) backToTopBtn.classList.toggle('show', scrollTop > 600);
+  scrollTicking = false;
+}
+window.addEventListener('scroll', () => {
+  if (!scrollTicking) { requestAnimationFrame(actualizarScroll); scrollTicking = true; }
+}, { passive: true });
+actualizarScroll();
+if (backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ── 👁️ REVELADO AL HACER SCROLL (secciones del bloque ATOMBIO) ── */
+const revealObserver = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.mega-divider, .cat-nav').forEach(el => {
+  el.classList.add('reveal');
+  revealObserver.observe(el);
+});
+document.querySelectorAll('.section-header').forEach(header => {
+  header.classList.add('reveal');
+  revealObserver.observe(header);
+  const hermano = header.nextElementSibling;
+  if (hermano && hermano.classList.contains('links')) {
+    hermano.classList.add('reveal');
+    revealObserver.observe(hermano);
+  }
+});
+
+/* ── 🧭 NAV ACTIVA AL HACER SCROLL (scrollspy; solo mueve el nav, nunca la página) ── */
+const catNavLinks = document.querySelectorAll('.cat-nav a');
+if (catNavLinks.length) {
+  const catSections = Array.from(catNavLinks)
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const link = document.querySelector(`.cat-nav a[href="#${entry.target.id}"]`);
+      if (!link) return;
+      catNavLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      const nav = link.closest('.cat-nav');
+      if (nav) {
+        const destino = link.offsetLeft - (nav.clientWidth / 2) + (link.clientWidth / 2);
+        nav.scrollTo({ left: destino, behavior: 'smooth' });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  catSections.forEach(s => navObserver.observe(s));
+}
+
+/* ── 🔢 ESTADÍSTICAS QUE CUENTAN AL APARECER ── */
+function contarNumero(el, duracion = 1400) {
+  const destino = parseInt(el.textContent, 10);
+  if (isNaN(destino)) return;
+  const inicio = performance.now();
+  function paso(ahora) {
+    const p = Math.min((ahora - inicio) / duracion, 1);
+    const suave = 1 - Math.pow(1 - p, 3); // ease-out cúbico
+    el.textContent = Math.floor(suave * destino);
+    if (p < 1) requestAnimationFrame(paso); else el.textContent = destino;
+  }
+  requestAnimationFrame(paso);
+}
+const statsObserver = new IntersectionObserver((entries, obs) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (!prefersReducedMotion) contarNumero(entry.target); else entry.target.textContent = entry.target.textContent;
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.6 });
+document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
+
+/* ── 🔥 CHISPAS — estela del cursor y ráfaga al hacer clic ── */
+function spawnChispa(x, y) {
+  const s = document.createElement('span');
+  const hue  = temaActual === 'corrupcion' ? (Math.random() * 50 + 280) : (Math.random() * 40 + 5);
+  const size = Math.random() * 3 + 2;
+  const dx   = (Math.random() - 0.5) * 34;
+  s.style.cssText = `
+    position:fixed; left:${x}px; top:${y}px;
+    width:${size}px; height:${size}px; border-radius:50%;
+    background:hsla(${hue},100%,60%,0.85);
+    box-shadow:0 0 6px 1px hsla(${hue},100%,55%,0.6);
+    pointer-events:none; z-index:35;
+    --dx:${dx}px;
+    animation: cursorEmberRise 0.9s ease-out forwards;
+  `;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 900);
+}
+if (!prefersReducedMotion && hoverFino) {
+  let ultimaChispa = 0;
+  window.addEventListener('mousemove', (e) => {
+    const ahora = performance.now();
+    if (ahora - ultimaChispa < 45) return; // throttle ~22/seg
+    ultimaChispa = ahora;
+    spawnChispa(e.clientX, e.clientY);
+  });
+}
+document.querySelectorAll('.link-btn, .bday-card').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    if (prefersReducedMotion) return;
+    for (let i = 0; i < 6; i++) spawnChispa(e.clientX, e.clientY);
+  });
+});
+
+/* ── 🐉 INCLINACIÓN 3D DEL AVATAR (sigue al cursor, como si te observara) ── */
+const avatarWrapTilt = document.querySelector('.avatar-wrap');
+const avatarRingTilt = document.querySelector('.avatar-ring');
+if (avatarWrapTilt && avatarRingTilt && !prefersReducedMotion && hoverFino) {
+  avatarWrapTilt.addEventListener('mousemove', (e) => {
+    const rect = avatarWrapTilt.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width  - 0.5;
+    const py = (e.clientY - rect.top)  / rect.height - 0.5;
+    avatarRingTilt.style.transition = 'none';
+    avatarRingTilt.style.transform  = `perspective(500px) rotateY(${px * 22}deg) rotateX(${-py * 22}deg)`;
+  });
+  avatarWrapTilt.addEventListener('mouseleave', () => {
+    avatarRingTilt.style.transition = 'transform 0.5s cubic-bezier(.2,.8,.2,1)';
+    avatarRingTilt.style.transform  = '';
   });
 }
 </script>
