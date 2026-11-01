@@ -429,6 +429,63 @@
     line-height: 1.4;
   }
 
+  /* ── 🎄 COUNTDOWN — próxima actualización ── */
+  .countdown-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255,140,0,0.35);
+    background: rgba(20,10,6,0.55);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    animation: slideIn 0.6s ease both 0.58s;
+  }
+  .countdown-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    opacity: 0.85;
+  }
+  .countdown-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #ffe8b8;
+  }
+  .countdown-nums { display: flex; gap: 0.55rem; margin-top: 0.2rem; }
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 44px;
+    padding: 0.4rem 0.3rem;
+    border: 1px solid var(--link-border);
+    background: var(--link-bg);
+    border-radius: 4px;
+  }
+  .countdown-num {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba(255,100,0,0.4));
+  }
+  .countdown-label {
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #c8a878;
+    margin-top: 0.2rem;
+  }
+  .countdown-done {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--gold);
+  }
+
   .link-icon {
     font-size: 1.5rem;
     min-width: 2rem;
@@ -1325,6 +1382,18 @@
       <div class="qr-text">
         <span class="qr-label">📱 Escaneá para jugar</span>
         <span class="qr-sub">Abrí Roblox directo en tu celular, sin escribir nada.</span>
+      </div>
+    </div>
+
+    <!-- 🎄 COUNTDOWN — próxima actualización de Bestias Génesis -->
+    <div class="countdown-card" id="countdown-actualizacion" data-target="2026-12-25T00:00:00-05:00">
+      <span class="countdown-tag">PRÓXIMA ACTUALIZACIÓN</span>
+      <span class="countdown-title">🎄 Bestias Génesis — Actualización 10</span>
+      <div class="countdown-nums">
+        <div class="countdown-unit"><span class="countdown-num" data-unit="d">00</span><span class="countdown-label">días</span></div>
+        <div class="countdown-unit"><span class="countdown-num" data-unit="h">00</span><span class="countdown-label">hs</span></div>
+        <div class="countdown-unit"><span class="countdown-num" data-unit="m">00</span><span class="countdown-label">min</span></div>
+        <div class="countdown-unit"><span class="countdown-num" data-unit="s">00</span><span class="countdown-label">seg</span></div>
       </div>
     </div>
   </div>
@@ -2263,6 +2332,42 @@ const statsObserver = new IntersectionObserver((entries, obs) => {
   });
 }, { threshold: 0.6 });
 document.querySelectorAll('.stat-num').forEach(el => statsObserver.observe(el));
+
+/* ── 🎄 COUNTDOWN — próxima actualización (Actualización 10) ── */
+(function initCountdown() {
+  const card = document.getElementById('countdown-actualizacion');
+  if (!card) return;
+  const target  = new Date(card.dataset.target).getTime();
+  const numD    = card.querySelector('[data-unit="d"]');
+  const numH    = card.querySelector('[data-unit="h"]');
+  const numM    = card.querySelector('[data-unit="m"]');
+  const numS    = card.querySelector('[data-unit="s"]');
+  const numsWrap = card.querySelector('.countdown-nums');
+  let intervalo = null;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function actualizarCountdown() {
+    const restante = target - Date.now();
+    if (restante <= 0) {
+      if (numsWrap) numsWrap.innerHTML = '<span class="countdown-done">🔥 ¡Ya está disponible!</span>';
+      if (intervalo) clearInterval(intervalo);
+      return;
+    }
+    const seg   = Math.floor(restante / 1000);
+    const dias  = Math.floor(seg / 86400);
+    const horas = Math.floor((seg % 86400) / 3600);
+    const mins  = Math.floor((seg % 3600) / 60);
+    const segs  = seg % 60;
+    if (numD) numD.textContent = pad(dias);
+    if (numH) numH.textContent = pad(horas);
+    if (numM) numM.textContent = pad(mins);
+    if (numS) numS.textContent = pad(segs);
+  }
+
+  actualizarCountdown();
+  intervalo = setInterval(actualizarCountdown, 1000);
+})();
 
 /* ── 🔥 CHISPAS — estela del cursor y ráfaga al hacer clic ── */
 function spawnChispa(x, y) {
