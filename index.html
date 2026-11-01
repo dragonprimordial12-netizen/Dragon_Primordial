@@ -1081,8 +1081,27 @@
   }
   .reveal.visible { opacity: 1; transform: none; }
 
-  /* Los ítems con revelado por scroll usan su propia transición — anulamos su animación de carga para que no choquen */
-  .link-btn.reveal, .qr-card.reveal, .countdown-card.reveal { animation: none; }
+  /* 💥 FRAGMENTACIÓN — las tarjetas se "arman" desde esquirlas al aparecer en vez de solo desvanecerse */
+  .link-btn.reveal, .qr-card.reveal, .countdown-card.reveal {
+    animation: none;
+    opacity: 0;
+    transform: translateY(14px) scale(0.82) rotate(-2deg);
+    filter: blur(6px) brightness(1.8);
+    clip-path: polygon(
+      8% 22%, 30% 2%, 46% 18%, 62% 0%, 78% 24%,
+      96% 10%, 88% 38%, 100% 52%, 82% 46%, 92% 72%,
+      70% 60%, 76% 92%, 54% 72%, 38% 100%, 30% 70%,
+      10% 86%, 18% 58%, 0% 48%, 14% 32%
+    );
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.8,.2,1),
+                filter .5s ease, clip-path .6s cubic-bezier(.3,1,.4,1);
+  }
+  .link-btn.reveal.visible, .qr-card.reveal.visible, .countdown-card.reveal.visible {
+    opacity: 1;
+    transform: none;
+    filter: blur(0) brightness(1);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
 
   /* 🧭 Nav activa (scrollspy) */
   .cat-nav a.active {
@@ -1101,6 +1120,10 @@
   @media (prefers-reduced-motion: reduce) {
     .intro-loader { display: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
+    .link-btn.reveal, .qr-card.reveal, .countdown-card.reveal {
+      opacity: 1; transform: none; filter: none; transition: none;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    }
   }
 </style>
 </head>
@@ -2271,10 +2294,21 @@ actualizarScroll();
 if (backToTopBtn) backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 /* ── 👁️ REVELADO AL HACER SCROLL (secciones del bloque ATOMBIO) ── */
+// 💥 Ráfaga de esquirlas/chispas sobre una tarjeta justo cuando se arma en pantalla
+function estallarFragmentos(el) {
+  if (prefersReducedMotion) return;
+  const rect = el.getBoundingClientRect();
+  for (let i = 0; i < 7; i++) {
+    spawnChispa(rect.left + Math.random() * rect.width, rect.top + Math.random() * rect.height);
+  }
+}
 const revealObserver = new IntersectionObserver((entries, obs) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      if (entry.target.matches('.link-btn, .qr-card, .countdown-card')) {
+        estallarFragmentos(entry.target);
+      }
       obs.unobserve(entry.target);
     }
   });
