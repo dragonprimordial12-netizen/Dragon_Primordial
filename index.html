@@ -395,6 +395,40 @@
     transform: translateX(6px) scale(1.01);
   }
 
+  /* ── 📱 QR — escaneá y jugá ── */
+  .qr-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.3rem;
+    border: 1px solid var(--link-border);
+    background: var(--link-bg);
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    animation: slideIn 0.6s ease both 0.5s;
+  }
+  .qr-img {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background: #fff;
+    padding: 5px;
+  }
+  .qr-text { display: flex; flex-direction: column; gap: 0.2rem; }
+  .qr-label {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: #ffe8b8;
+  }
+  .qr-sub {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    color: #c8a878;
+    line-height: 1.4;
+  }
+
   .link-icon {
     font-size: 1.5rem;
     min-width: 2rem;
@@ -1143,16 +1177,6 @@
   <!-- LINKS -->
   <div class="links">
 
-    <!-- FEATURED: ROBLOX -->
-    <a class="link-btn featured" href="https://www.roblox.com/es/games/103451711855402/BESTIAS-Y-MONSTRUOS" target="_blank">
-      <span class="link-icon">🎮</span>
-      <div class="link-text">
-        <span class="link-label">Jugar en Roblox</span>
-        <span class="link-sub">🔥 Bestias y Monstruos · Domina la Era Salvaje</span>
-      </div>
-      <span class="link-arrow">▶</span>
-    </a>
-
     <!-- TIKTOK -->
     <a class="link-btn" href="https://www.tiktok.com/@dragonprimordial?lang=es" target="_blank">
       <span class="link-icon"><svg viewBox="0 0 24 24" fill="#ffffff"><path d="M16.6 5.82c-.9-1-1.4-2.28-1.4-3.6V2h-3.45v13.4a2.59 2.59 0 1 1-2.6-2.6c.28 0 .55.04.8.12V9.4a6.1 6.1 0 0 0-.8-.05A6.07 6.07 0 1 0 15.15 15V9.1a7.6 7.6 0 0 0 4.45 1.43V7.1c-1.08 0-2.08-.35-2.9-.95a5.8 5.8 0 0 1-.1-.33z"/></svg></span>
@@ -1256,6 +1280,7 @@
 
   <!-- QUICK NAV -->
   <nav class="cat-nav">
+    <a href="#cat-juegos">🎮 Juegos</a>
     <a href="#cat-bestias">🔥 Bestias</a>
     <a href="#cat-peticiones">📋 Peticiones</a>
     <a href="#cat-arte">🎨 Arte</a>
@@ -1268,6 +1293,41 @@
     <a href="#cat-redes">📡 Más Redes</a>
     <a href="#cat-extras">🗂️ Extras</a>
   </nav>
+
+  <!-- 🎮 JUGÁ LOS JUEGOS -->
+  <div class="section-header" id="cat-juegos">
+    <h3 class="section-title">🎮 Jugá los Juegos</h3>
+    <p class="section-desc">Por ahora, estas son las dos únicas formas de probar el universo Dragón Primordial. Elegí tu plataforma.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn featured" href="https://www.roblox.com/es/games/103451711855402/BESTIAS-Y-MONSTRUOS" target="_blank">
+      <span class="link-icon">🎮</span>
+      <div class="link-text">
+        <span class="link-label">Jugar en Roblox</span>
+        <span class="link-sub">🔥 Bestias y Monstruos · Domina la Era Salvaje</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://dragonprimordial.itch.io/bestias-genesis" target="_blank">
+      <span class="link-icon">🎁</span>
+      <div class="link-text">
+        <span class="link-label">Bestias Génesis (itch.io)</span>
+        <span class="link-sub">La página directa del juego en itch.io.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+
+    <!-- 📱 QR — escaneá y jugá desde el celular -->
+    <div class="qr-card">
+      <img class="qr-img" loading="lazy"
+           src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=https%3A%2F%2Fwww.roblox.com%2Fes%2Fgames%2F103451711855402%2FBESTIAS-Y-MONSTRUOS"
+           alt="Código QR para abrir Bestias y Monstruos en Roblox desde el celular">
+      <div class="qr-text">
+        <span class="qr-label">📱 Escaneá para jugar</span>
+        <span class="qr-sub">Abrí Roblox directo en tu celular, sin escribir nada.</span>
+      </div>
+    </div>
+  </div>
 
   <!-- 🔥 BESTIAS Y MONSTRUOS -->
   <div class="section-header" id="cat-bestias">
@@ -1584,14 +1644,6 @@
       <div class="link-text">
         <span class="link-label">BuiltByBit</span>
         <span class="link-sub">NPCs, criaturas y scripts para Roblox Studio.</span>
-      </div>
-      <span class="link-arrow">▶</span>
-    </a>
-    <a class="link-btn" href="https://dragonprimordial.itch.io/bestias-genesis" target="_blank">
-      <span class="link-icon">🎁</span>
-      <div class="link-text">
-        <span class="link-label">Bestias Génesis (itch.io)</span>
-        <span class="link-sub">La página directa del juego en itch.io.</span>
       </div>
       <span class="link-arrow">▶</span>
     </a>
