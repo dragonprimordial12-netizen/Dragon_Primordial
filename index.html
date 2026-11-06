@@ -192,6 +192,42 @@
     border: 2px solid rgba(0,0,0,0.6);
   }
 
+  /* 💢 ENFADO — aro rojo + espinas de furia latiendo alrededor del avatar (estilo decoración de Discord) */
+  .avatar-enfado {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .avatar-enfado::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,30,30,0.65);
+    box-shadow: 0 0 16px rgba(255,20,20,.55), inset 0 0 14px rgba(255,20,20,.35);
+    animation: enfadoAro 1.15s ease-in-out infinite;
+  }
+  .avatar-enfado .espina {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 26px;
+    margin: -13px 0 0 -10px;
+    background: linear-gradient(180deg, #ff3b3b, #8a0000);
+    clip-path: polygon(50% 0%, 70% 34%, 100% 22%, 64% 56%, 88% 100%, 50% 70%, 12% 100%, 36% 56%, 0% 22%, 30% 34%);
+    filter: drop-shadow(0 0 5px #ff1a1a) drop-shadow(0 0 12px rgba(255,20,20,.6));
+    transform: rotate(calc(var(--ang) * 1deg)) translateY(-62px);
+    animation: enfadoLatido 1.15s ease-in-out infinite;
+  }
+  @keyframes enfadoLatido {
+    0%, 100% { opacity: .5; transform: rotate(calc(var(--ang) * 1deg)) translateY(-60px) scale(0.85); }
+    50%      { opacity: 1;  transform: rotate(calc(var(--ang) * 1deg)) translateY(-67px) scale(1.1); }
+  }
+  @keyframes enfadoAro {
+    0%,100% { opacity: .5; transform: scale(0.97); }
+    50%     { opacity: 1;  transform: scale(1.05); }
+  }
+
   /* ── 🔥 FUEGO ALREDEDOR DEL TÍTULO ── */
   .fire-title {
     position: relative;
@@ -1156,6 +1192,8 @@
       clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
     }
     .social-links .link-btn { animation: none; transform: none; }
+    .avatar-enfado::before { animation: none; opacity: .8; }
+    .avatar-enfado .espina { animation: none; opacity: .85; }
   }
 </style>
 </head>
@@ -1236,6 +1274,14 @@
       <div class="avatar-inner">
         <img src="Icono.jpeg" alt="Dragón Primordial" class="avatar-img">
       </div>
+    </div>
+    <div class="avatar-enfado" aria-hidden="true">
+      <span class="espina" style="--ang:0"></span>
+      <span class="espina" style="--ang:60"></span>
+      <span class="espina" style="--ang:120"></span>
+      <span class="espina" style="--ang:180"></span>
+      <span class="espina" style="--ang:240"></span>
+      <span class="espina" style="--ang:300"></span>
     </div>
   </div>
 
