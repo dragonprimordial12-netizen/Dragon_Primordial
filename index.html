@@ -135,15 +135,11 @@
     z-index: 1;
   }
   .banner-img {
-    position: absolute;
-    top: 50%;
-    left: 0;
     width: 100%;
-    height: 130%;
+    height: 100%;
     object-fit: cover;
     display: block;
     filter: brightness(0.55) saturate(1.15) contrast(1.05);
-    transform: translateY(calc(-50% + var(--parallax-y, 0px)));
     will-change: transform;
   }
   .banner-wrap::after {
@@ -197,7 +193,7 @@
     border: 2px solid rgba(0,0,0,0.6);
   }
 
-  /* 💢 DECORACIÓN DEL AVATAR — cambia con el tema: 🔥 corona de llamas doradas / 🩸 tentáculos morados (estilo decoración de Discord) */
+  /* 💢 ENFADO — aro rojo + espinas de furia latiendo alrededor del avatar (estilo decoración de Discord) */
   .avatar-enfado {
     position: absolute;
     inset: 0;
@@ -209,54 +205,49 @@
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 2px solid var(--fire);
-    box-shadow: 0 0 16px var(--glow-soft), inset 0 0 14px var(--glow);
+    border: 2px solid rgba(255,170,40,0.65);
+    box-shadow: 0 0 16px rgba(255,170,40,.55), inset 0 0 14px rgba(255,170,40,.35);
     animation: enfadoAro 1.15s ease-in-out infinite;
+    transition: border-color .5s ease, box-shadow .5s ease, animation-duration .3s ease;
   }
   .avatar-enfado .espina {
     position: absolute;
     top: 50%; left: 50%;
     width: 20px; height: 26px;
     margin: -13px 0 0 -10px;
-    background: linear-gradient(180deg, var(--gold), var(--fire));
-    clip-path: polygon(50% 0%, 70% 34%, 100% 22%, 64% 56%, 88% 100%, 50% 70%, 12% 100%, 36% 56%, 0% 22%, 30% 34%);
-    filter: drop-shadow(0 0 5px var(--ember)) drop-shadow(0 0 12px var(--glow-soft));
+    background: linear-gradient(180deg, #ffe066, #ff8c00);
+    clip-path: polygon(50% 0%, 78% 38%, 62% 42%, 88% 78%, 50% 100%, 12% 78%, 38% 42%, 22% 38%);
+    filter: drop-shadow(0 0 5px #ffb347) drop-shadow(0 0 12px rgba(255,160,0,.6));
     transform: rotate(calc(var(--ang) * 1deg)) translateY(-62px);
     animation: enfadoLatido 1.15s ease-in-out infinite;
+    transition: background .5s ease, filter .5s ease, clip-path .5s ease;
   }
   @keyframes enfadoLatido {
-    0%, 100% { opacity: .55; transform: rotate(calc(var(--ang) * 1deg)) translateY(-60px) scale(0.85); }
-    50%      { opacity: 1;   transform: rotate(calc(var(--ang) * 1deg)) translateY(-67px) scale(1.1); }
+    0%, 100% { opacity: .5; transform: rotate(calc(var(--ang) * 1deg)) translateY(-60px) scale(0.85); }
+    50%      { opacity: 1;  transform: rotate(calc(var(--ang) * 1deg)) translateY(-67px) scale(1.1); }
   }
   @keyframes enfadoAro {
     0%,100% { opacity: .5; transform: scale(0.97); }
     50%     { opacity: 1;  transform: scale(1.05); }
   }
-  /* 🩸 En Corrupción las puntas se curvan y ondulan como tentáculos en vez de latir rectas como llamas */
+
+  /* 🩸 Tema Corrupción: la corona dorada se vuelve grietas/tentáculos morados */
+  [data-theme="corrupcion"] .avatar-enfado::before {
+    border-color: rgba(190,60,255,0.65);
+    box-shadow: 0 0 16px rgba(190,60,255,.55), inset 0 0 14px rgba(190,60,255,.35);
+  }
   [data-theme="corrupcion"] .avatar-enfado .espina {
-    clip-path: polygon(50% 0%, 66% 30%, 86% 20%, 70% 48%, 90% 62%, 66% 64%, 74% 100%, 50% 72%, 26% 100%, 34% 64%, 10% 62%, 30% 48%, 14% 20%, 34% 30%);
-    animation: tentaculoOndula 1.8s ease-in-out infinite;
+    background: linear-gradient(180deg, #d891ff, #4b0082);
+    clip-path: polygon(50% 0%, 70% 34%, 100% 22%, 64% 56%, 88% 100%, 50% 70%, 12% 100%, 36% 56%, 0% 22%, 30% 34%);
+    filter: drop-shadow(0 0 5px #c026d3) drop-shadow(0 0 12px rgba(180,40,220,.6));
   }
-  @keyframes tentaculoOndula {
-    0%, 100% { opacity: .55; transform: rotate(calc(var(--ang) * 1deg + 0deg)) translateY(-58px) scaleY(0.9); }
-    50%      { opacity: 1;   transform: rotate(calc(var(--ang) * 1deg + 8deg)) translateY(-68px) scaleY(1.15); }
-  }
-  /* 💓 Al pasar el mouse, late/ondula más rápido y se estira un poco, como si lo provocaras */
-  .avatar-wrap:hover .avatar-enfado::before { animation-duration: 0.5s; }
-  .avatar-wrap:hover .avatar-enfado .espina {
-    animation: enfadoLatidoHover 0.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 7px var(--ember)) drop-shadow(0 0 16px var(--glow-soft));
-  }
+
+  /* 🖱️ Hover sobre el avatar: la decoración late más rápido y se estira, como si lo provocaras */
+  .avatar-wrap:hover .avatar-enfado::before { animation-duration: 0.55s; }
+  .avatar-wrap:hover .avatar-enfado .espina { animation: enfadoLatidoHover 0.55s ease-in-out infinite; }
   @keyframes enfadoLatidoHover {
-    0%, 100% { opacity: .6; transform: rotate(calc(var(--ang) * 1deg)) translateY(-62px) scale(0.95); }
-    50%      { opacity: 1;  transform: rotate(calc(var(--ang) * 1deg)) translateY(-74px) scale(1.2); }
-  }
-  [data-theme="corrupcion"] .avatar-wrap:hover .avatar-enfado .espina {
-    animation: tentaculoOndulaHover 0.65s ease-in-out infinite;
-  }
-  @keyframes tentaculoOndulaHover {
-    0%, 100% { opacity: .6; transform: rotate(calc(var(--ang) * 1deg + 0deg))  translateY(-60px) scaleY(1); }
-    50%      { opacity: 1;  transform: rotate(calc(var(--ang) * 1deg + 14deg)) translateY(-76px) scaleY(1.3); }
+    0%, 100% { opacity: .55; transform: rotate(calc(var(--ang) * 1deg)) translateY(-64px) scale(0.92); }
+    50%      { opacity: 1;   transform: rotate(calc(var(--ang) * 1deg)) translateY(-75px) scale(1.3); }
   }
 
   /* ── 🔥 FUEGO ALREDEDOR DEL TÍTULO ── */
@@ -787,14 +778,17 @@
     border-right: 1px solid rgba(255,180,0,0.3);
     padding-right: 0.6rem;
   }
-  .news-track-wrap {
-    overflow: hidden;
-    flex: 1;
+  .news-track-wrap { overflow: hidden; flex: 1; display: flex; align-items: center; }
+  .news-track {
     display: flex;
     align-items: center;
-    min-height: 1.3rem;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .news-item {
+    display: inline-block;
     font-family: 'Cinzel', serif;
     font-size: 0.68rem;
     color: #e8c888;
@@ -802,10 +796,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
-    width: 100%;
-    transition: opacity 0.22s ease;
+    transition: opacity .3s ease, filter .3s ease, transform .3s ease;
   }
+  .news-item.news-out {
+    opacity: 0;
+    filter: blur(4px) brightness(1.6);
+    transform: scale(0.85) translateY(-2px);
+  }
+  .news-item.news-in { animation: newsIn .5s cubic-bezier(.2,.8,.2,1); }
+  @keyframes newsIn {
+    0%   { opacity: 0; filter: blur(5px) brightness(1.8); transform: scale(0.8); }
+    100% { opacity: 1; filter: blur(0) brightness(1);     transform: scale(1); }
+  }
+  .news-sep { color: var(--fire); opacity: 0.6; }
 
   .mega-title {
     font-family: 'Cinzel Decorative', serif;
@@ -1003,7 +1006,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .music-player { min-width: 150px; }
+  .music-progress {
+    width: 100%;
+    height: 4px;
+    accent-color: var(--fire);
+    cursor: pointer;
+    margin: 0.1rem 0;
+  }
+  .music-progress::-webkit-slider-thumb { -webkit-appearance: none; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 6px var(--glow-soft); }
+  .music-progress::-moz-range-thumb { width: 9px; height: 9px; border: none; border-radius: 50%; background: var(--gold); box-shadow: 0 0 6px var(--glow-soft); }
   .music-controls { display: flex; align-items: center; gap: 0.35rem; }
+  .music-volume-row { display: flex; align-items: center; gap: 0.35rem; width: 100%; }
+  .music-btn-mute { width: 22px; height: 22px; font-size: 0.75rem; flex-shrink: 0; }
+  .music-volume {
+    flex: 1;
+    height: 3px;
+    accent-color: var(--ember);
+    cursor: pointer;
+  }
+  .music-volume::-webkit-slider-thumb { -webkit-appearance: none; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  .music-volume::-moz-range-thumb { width: 8px; height: 8px; border: none; border-radius: 50%; background: var(--gold); }
   .music-btn {
     background: transparent;
     border: none;
@@ -1128,20 +1151,20 @@
     pointer-events: none;
   }
 
-  /* 🌊 Onda de transición al cambiar de tema: se expande desde el switch, no desde una esquina fija */
+  /* 🌗 Onda de transición al cambiar de tema — se expande desde el botón hasta cubrir la pantalla */
   .theme-flash {
     position: fixed; inset: 0; z-index: 45;
     opacity: 0;
-    background: radial-gradient(circle at var(--flash-x, 92%) var(--flash-y, 3%), var(--flash-color, rgba(255,120,0,0.5)), transparent 62%);
+    background: var(--flash-color, rgba(255,120,0,0.5));
     mix-blend-mode: screen;
     pointer-events: none;
-    clip-path: circle(0% at var(--flash-x, 92%) var(--flash-y, 3%));
+    clip-path: circle(0% at var(--wave-x, 50%) var(--wave-y, 50%));
   }
-  .theme-flash.flash { animation: themeFlash 0.75s cubic-bezier(.22,.8,.3,1); }
-  @keyframes themeFlash {
-    0%   { opacity: 1; clip-path: circle(0% at var(--flash-x, 92%) var(--flash-y, 3%)); }
-    65%  { opacity: 1; }
-    100% { opacity: 0; clip-path: circle(140% at var(--flash-x, 92%) var(--flash-y, 3%)); }
+  .theme-flash.flash { animation: themeWave 0.75s cubic-bezier(.2,.8,.2,1); }
+  @keyframes themeWave {
+    0%   { opacity: .9; clip-path: circle(0% at var(--wave-x, 50%) var(--wave-y, 50%)); }
+    65%  { opacity: .65; }
+    100% { opacity: 0;  clip-path: circle(150% at var(--wave-x, 50%) var(--wave-y, 50%)); }
   }
 
   /* ⬆️ Botón volver arriba */
@@ -1219,6 +1242,39 @@
     100% { opacity: 0;   transform: translate(var(--dx), -28px) scale(0.35); }
   }
 
+  /* 💥 FURIA MÁXIMA — temblor de pantalla + grietas rojas que estallan desde el avatar */
+  @keyframes furiaShake {
+    0%, 100% { transform: translate(0,0); }
+    10% { transform: translate(-6px,3px) rotate(-0.4deg); }
+    20% { transform: translate(5px,-4px) rotate(0.4deg); }
+    30% { transform: translate(-5px,4px) rotate(-0.3deg); }
+    40% { transform: translate(6px,2px) rotate(0.3deg); }
+    50% { transform: translate(-4px,-3px); }
+    60% { transform: translate(4px,3px); }
+    70% { transform: translate(-3px,-2px); }
+    80% { transform: translate(3px,2px); }
+    90% { transform: translate(-2px,1px); }
+  }
+  body.furia-shake { animation: furiaShake 0.5s cubic-bezier(.3,.1,.2,1); }
+
+  .furia-grietas { position: fixed; inset: 0; z-index: 997; pointer-events: none; }
+  .furia-grieta {
+    position: fixed;
+    left: 0; top: 0;
+    width: 3px;
+    height: var(--largo, 50vh);
+    background: linear-gradient(180deg, #fff, #ff1a1a 25%, rgba(255,20,20,0) 100%);
+    box-shadow: 0 0 8px 1px rgba(255,20,20,0.85);
+    transform-origin: top center;
+    animation: furiaGrietaCrecer 0.9s ease-out forwards;
+  }
+  @keyframes furiaGrietaCrecer {
+    0%   { opacity: 0; transform: translate(-50%, 0) rotate(var(--ang, 0deg)) scaleY(0); }
+    12%  { opacity: 1; }
+    45%  { opacity: 1; transform: translate(-50%, 0) rotate(var(--ang, 0deg)) scaleY(1); }
+    100% { opacity: 0; transform: translate(-50%, 0) rotate(var(--ang, 0deg)) scaleY(1); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .intro-loader { display: none; }
     .reveal { opacity: 1; transform: none; transition: none; }
@@ -1227,8 +1283,10 @@
       clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
     }
     .social-links .link-btn { animation: none; transform: none; }
-    .avatar-enfado::before { animation: none; opacity: .8; }
-    .avatar-enfado .espina { animation: none; opacity: .85; }
+    .avatar-enfado::before,
+    .avatar-wrap:hover .avatar-enfado::before { animation: none; opacity: .8; }
+    .avatar-enfado .espina,
+    .avatar-wrap:hover .avatar-enfado .espina { animation: none; opacity: .85; }
   }
 </style>
 </head>
@@ -1344,11 +1402,13 @@
     </div>
   </div>
 
-  <!-- 📰 ÚLTIMAS NOVEDADES — el array NOVEDADES del script es lo que editás a mano cada vez que subas algo nuevo -->
+  <!-- 📰 ÚLTIMAS NOVEDADES — el texto real que rota vive en el array NOVEDADES del script (buscá "NOVEDADES: rotan con fragmentación"); esto de acá es solo el primer item antes de que cargue el JS -->
   <div class="news-ticker">
     <span class="news-tag">NOVEDADES</span>
     <div class="news-track-wrap">
-      <span id="news-current" class="news-item">🎂 Nueva sección: Tarjeta de Cumpleaños</span>
+      <div class="news-track">
+        <span id="news-current" class="news-item">🎂 Nueva sección: Tarjeta de Cumpleaños</span>
+      </div>
     </div>
   </div>
 
@@ -1474,6 +1534,7 @@
   <!-- QUICK NAV -->
   <nav class="cat-nav">
     <a href="#cat-juegos">🎮 Juegos</a>
+    <a href="#cat-comunidad">💬 Comunidad</a>
     <a href="#cat-bestias">🔥 Bestias</a>
     <a href="#cat-peticiones">📋 Peticiones</a>
     <a href="#cat-arte">🎨 Arte</a>
@@ -1532,6 +1593,30 @@
         <div class="countdown-unit"><span class="countdown-num" data-unit="s">00</span><span class="countdown-label">seg</span></div>
       </div>
     </div>
+  </div>
+
+  <!-- 💬 COMUNIDAD -->
+  <div class="section-header" id="cat-comunidad">
+    <h3 class="section-title">💬 Comunidad</h3>
+    <p class="section-desc">Metete a hablar de bestias, monstruos y toda la Era Salvaje.</p>
+  </div>
+  <div class="links">
+    <a class="link-btn featured" href="https://discord.gg/W4jQxyft" target="_blank">
+      <span class="link-icon">💬</span>
+      <div class="link-text">
+        <span class="link-label">Unite al Discord</span>
+        <span class="link-sub">La comunidad oficial — charla, novedades y sorteos.</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
+    <a class="link-btn" href="https://www.threads.com/@dragonprimordiall" target="_blank">
+      <span class="link-icon">🧵</span>
+      <div class="link-text">
+        <span class="link-label">Threads</span>
+        <span class="link-sub">@dragonprimordiall</span>
+      </div>
+      <span class="link-arrow">▶</span>
+    </a>
   </div>
 
   <!-- 🔥 BESTIAS Y MONSTRUOS -->
@@ -2011,9 +2096,7 @@
 <audio id="bg-music" preload="none"></audio>
 <div class="music-player">
   <span id="music-track-name" class="music-track-name">—</span>
-  <div id="music-progress-wrap" class="music-progress-wrap" role="slider" aria-label="Progreso de la pista" tabindex="0">
-    <div id="music-progress-fill" class="music-progress-fill"></div>
-  </div>
+  <input id="music-progress" class="music-progress" type="range" min="0" max="100" step="0.1" value="0" aria-label="Progreso de la pista">
   <div class="music-controls">
     <button id="music-prev" class="music-btn" type="button" aria-label="Pista anterior" title="Pista anterior">⏮</button>
     <button id="music-toggle" class="music-btn music-btn-main" type="button" aria-label="Reproducir / pausar" title="Reproducir / pausar">
@@ -2021,9 +2104,9 @@
     </button>
     <button id="music-next" class="music-btn" type="button" aria-label="Pista siguiente" title="Pista siguiente">⏭</button>
   </div>
-  <div class="music-volume-wrap">
-    <button id="music-mute" class="music-btn music-mute-btn" type="button" aria-label="Silenciar" title="Silenciar">🔊</button>
-    <input id="music-volume" class="music-volume" type="range" min="0" max="100" value="35" aria-label="Volumen de la música">
+  <div class="music-volume-row">
+    <button id="music-mute" class="music-btn music-btn-mute" type="button" aria-label="Silenciar" title="Silenciar">🔊</button>
+    <input id="music-volume" class="music-volume" type="range" min="0" max="100" step="1" value="35" aria-label="Volumen">
   </div>
 </div>
 
@@ -2184,16 +2267,27 @@ const musicBtn    = document.getElementById('music-toggle');
 const prevBtn     = document.getElementById('music-prev');
 const nextBtn     = document.getElementById('music-next');
 const trackNameEl = document.getElementById('music-track-name');
+const progressEl  = document.getElementById('music-progress');
+const volumeEl    = document.getElementById('music-volume');
+const muteBtn     = document.getElementById('music-mute');
 
 if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
   bgMusic.volume = 0.35;
   const icon = musicBtn.querySelector('.music-icon');
   let pistaActual   = 1; // arranca en "Despertar de la Batalla"
   let fallosSeguidos = 0;
+  let arrastrandoProgreso = false;
 
   function marcarSonando(sonando) {
     musicBtn.classList.toggle('playing', sonando);
     icon.textContent = sonando ? '🔊' : '🎵';
+  }
+
+  function actualizarIconoVolumen() {
+    if (!muteBtn) return;
+    if (bgMusic.muted || bgMusic.volume === 0) muteBtn.textContent = '🔇';
+    else if (bgMusic.volume < 0.5)             muteBtn.textContent = '🔉';
+    else                                        muteBtn.textContent = '🔊';
   }
 
   function cargarPista(indice, reproducir) {
@@ -2202,6 +2296,7 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
     bgMusic.src = pista.archivo;
     bgMusic.load(); // fuerza al navegador a tomar la nueva fuente
     trackNameEl.textContent = pista.nombre;
+    if (progressEl) progressEl.value = 0;
 
     if (!reproducir) { marcarSonando(false); return; }
 
@@ -2212,6 +2307,7 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
   }
 
   cargarPista(pistaActual, false); // carga la primera pista sin reproducir (autoplay bloqueado por el navegador)
+  actualizarIconoVolumen();
 
   musicBtn.addEventListener('click', () => {
     if (bgMusic.paused) {
@@ -2227,6 +2323,36 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
 
   prevBtn.addEventListener('click', () => cargarPista(pistaActual - 1, musicBtn.classList.contains('playing')));
   nextBtn.addEventListener('click', () => cargarPista(pistaActual + 1, musicBtn.classList.contains('playing')));
+
+  // 📊 barra de progreso: avanza sola mientras suena, y se puede arrastrar para saltar de punto
+  bgMusic.addEventListener('timeupdate', () => {
+    if (progressEl && !arrastrandoProgreso && bgMusic.duration) {
+      progressEl.value = (bgMusic.currentTime / bgMusic.duration) * 100;
+    }
+  });
+  if (progressEl) {
+    progressEl.addEventListener('input', () => { arrastrandoProgreso = true; });
+    progressEl.addEventListener('change', () => {
+      if (bgMusic.duration) bgMusic.currentTime = (progressEl.value / 100) * bgMusic.duration;
+      arrastrandoProgreso = false;
+    });
+  }
+
+  // 🔊 volumen + silenciar
+  if (volumeEl) {
+    volumeEl.value = Math.round(bgMusic.volume * 100);
+    volumeEl.addEventListener('input', () => {
+      bgMusic.volume = volumeEl.value / 100;
+      bgMusic.muted  = false;
+      actualizarIconoVolumen();
+    });
+  }
+  if (muteBtn) {
+    muteBtn.addEventListener('click', () => {
+      bgMusic.muted = !bgMusic.muted;
+      actualizarIconoVolumen();
+    });
+  }
 
   // cuando termina una pista, pasa sola a la siguiente (loop de playlist, no de una sola canción)
   bgMusic.addEventListener('ended', () => cargarPista(pistaActual + 1, true));
@@ -2248,13 +2374,24 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
    🔥↔️🩸 SWITCH DE TEMA — botón + repintado en vivo
    ══════════════════════════════════════════ */
 const themeFlashEl = document.getElementById('theme-flash');
-function aplicarTema(tema) {
+function aplicarTema(tema, origenXY) {
   temaActual = tema;
   document.documentElement.setAttribute('data-theme', tema);
   localStorage.setItem(TEMA_KEY, tema);
   if (temaSwitchBtn) temaSwitchBtn.classList.toggle('activo', tema === 'corrupcion');
   embers.forEach(e => reset(e)); // repinta las brasas ya en pantalla al toque
   if (themeFlashEl) {
+    let ox, oy;
+    if (origenXY) {
+      ox = origenXY.x + 'px'; oy = origenXY.y + 'px';
+    } else if (temaSwitchBtn) {
+      const r = temaSwitchBtn.getBoundingClientRect();
+      ox = (r.left + r.width / 2) + 'px'; oy = (r.top + r.height / 2) + 'px';
+    } else {
+      ox = '50%'; oy = '50%';
+    }
+    themeFlashEl.style.setProperty('--wave-x', ox);
+    themeFlashEl.style.setProperty('--wave-y', oy);
     themeFlashEl.style.setProperty('--flash-color', tema === 'corrupcion' ? 'rgba(192,38,211,0.55)' : 'rgba(255,120,0,0.5)');
     themeFlashEl.classList.remove('flash');
     void themeFlashEl.offsetWidth; // fuerza reflow para poder repetir la animación
@@ -2265,8 +2402,8 @@ function aplicarTema(tema) {
 const temaSwitchBtn = document.getElementById('tema-switch');
 if (temaSwitchBtn) {
   temaSwitchBtn.classList.toggle('activo', temaActual === 'corrupcion'); // estado inicial del botón
-  temaSwitchBtn.addEventListener('click', () => {
-    aplicarTema(temaActual === 'fuego' ? 'corrupcion' : 'fuego');
+  temaSwitchBtn.addEventListener('click', (e) => {
+    aplicarTema(temaActual === 'fuego' ? 'corrupcion' : 'fuego', { x: e.clientX, y: e.clientY });
   });
 }
 
@@ -2354,12 +2491,65 @@ function mostrarToastEgg(texto) {
   setTimeout(() => toast.remove(), 2600);
 }
 
+/* 💥 FURIA MÁXIMA — varios clics seguidos hacen que el dragón pierda la paciencia de verdad */
+let clicksSeguidos = [];
+const FURIA_VENTANA_MS = 1100;
+const FURIA_UMBRAL     = 5;
+let furiaEnfriando = false;
+
+function dispararFuriaMaxima(origenRect) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    mostrarToastEgg('🐲🔥 FURIA MÁXIMA — el dragón pierde la paciencia.');
+    return;
+  }
+  const cx = origenRect.left + origenRect.width / 2;
+  const cy = origenRect.top  + origenRect.height / 2;
+
+  document.body.classList.remove('furia-shake');
+  void document.body.offsetWidth; // fuerza reflow para poder repetir el shake
+  document.body.classList.add('furia-shake');
+  setTimeout(() => document.body.classList.remove('furia-shake'), 500);
+
+  const contenedor = document.createElement('div');
+  contenedor.className = 'furia-grietas';
+  const cantidad = 9;
+  for (let i = 0; i < cantidad; i++) {
+    const angulo = (360 / cantidad) * i + (Math.random() * 18 - 9);
+    const largo  = 45 + Math.random() * 40;
+    const grieta = document.createElement('span');
+    grieta.className = 'furia-grieta';
+    grieta.style.left = cx + 'px';
+    grieta.style.top  = cy + 'px';
+    grieta.style.setProperty('--ang', angulo + 'deg');
+    grieta.style.setProperty('--largo', largo + 'vh');
+    grieta.style.animationDelay = (Math.random() * 0.12) + 's';
+    contenedor.appendChild(grieta);
+  }
+  document.body.appendChild(contenedor);
+  setTimeout(() => contenedor.remove(), 1000);
+
+  mostrarToastEgg('🐲🔥 FURIA MÁXIMA — el dragón pierde la paciencia.');
+}
+
 if (avatarEl) {
   avatarEl.style.cursor = 'pointer';
   avatarEl.addEventListener('click', () => {
     const rect = avatarEl.getBoundingClientRect();
     for (let i = 0; i < 14; i++) lanzarChispaEgg(rect);
     eggClicks++;
+
+    const ahora = Date.now();
+    clicksSeguidos = clicksSeguidos.filter(t => ahora - t < FURIA_VENTANA_MS);
+    clicksSeguidos.push(ahora);
+
+    if (clicksSeguidos.length >= FURIA_UMBRAL && !furiaEnfriando) {
+      furiaEnfriando = true;
+      clicksSeguidos = [];
+      dispararFuriaMaxima(rect);
+      setTimeout(() => { furiaEnfriando = false; }, 1500);
+      return;
+    }
+
     const frase = eggClicks >= 5
       ? '🐲🔥 El dragón despertó por completo. Gracias por quedarte hasta acá.'
       : FRASES_SECRETAS[Math.floor(Math.random() * FRASES_SECRETAS.length)];
@@ -2388,9 +2578,10 @@ const hoverFino = window.matchMedia('(hover: hover) and (pointer: fine)').matche
   }, 1300);
 })();
 
-/* ── 📊 BARRA DE PROGRESO + ⬆️ VOLVER ARRIBA (un solo listener de scroll, con rAF) ── */
+/* ── 📊 BARRA DE PROGRESO + ⬆️ VOLVER ARRIBA + 🖼️ PARALLAX DEL BANNER (un solo listener de scroll, con rAF) ── */
 const scrollProgressEl = document.getElementById('scroll-progress');
 const backToTopBtn      = document.getElementById('back-to-top');
+const bannerImgEl       = document.querySelector('.banner-img');
 let scrollTicking = false;
 function actualizarScroll() {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -2398,6 +2589,10 @@ function actualizarScroll() {
   const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
   if (scrollProgressEl) scrollProgressEl.style.width = pct + '%';
   if (backToTopBtn) backToTopBtn.classList.toggle('show', scrollTop > 600);
+  if (bannerImgEl && !prefersReducedMotion) {
+    const despl = Math.min(scrollTop * 0.25, 70); // tope para que nunca se despegue del marco
+    bannerImgEl.style.transform = `translateY(${despl}px) scale(1.15)`;
+  }
   scrollTicking = false;
 }
 window.addEventListener('scroll', () => {
@@ -2436,6 +2631,64 @@ function estallarFragmentos(el) {
     setTimeout(() => esquirla.remove(), 600);
   }
 }
+/* ── 📰 NOVEDADES: rotan con fragmentación — la vieja se rompe en esquirlas, la nueva se arma igual que las tarjetas ── */
+function dispersarFragmentosSalida(el) {
+  if (prefersReducedMotion) return;
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const cantidad = 7;
+  for (let i = 0; i < cantidad; i++) {
+    const angulo    = (Math.PI * 2 / cantidad) * i + (Math.random() * 0.6 - 0.3);
+    const distancia = 50 + Math.random() * 70;
+    const dx = Math.cos(angulo) * distancia;
+    const dy = Math.sin(angulo) * distancia;
+    const giroFinal = Math.random() * 360 - 180;
+
+    const esquirla = document.createElement('span');
+    esquirla.className = 'frag-shard';
+    esquirla.style.left = cx + 'px';
+    esquirla.style.top  = cy + 'px';
+    esquirla.style.opacity = '1';
+    esquirla.style.transform = 'translate(0,0) rotate(0deg) scale(0.9)';
+    document.body.appendChild(esquirla);
+
+    void esquirla.offsetWidth; // fuerza el reflow para que arranque desde el centro antes de dispersarse
+
+    esquirla.style.transform = `translate(${dx}px, ${dy}px) rotate(${giroFinal}deg) scale(0.2)`;
+    esquirla.style.opacity = '0';
+    setTimeout(() => esquirla.remove(), 600);
+  }
+}
+
+const NOVEDADES = [
+  '🎂 Nueva sección: Tarjeta de Cumpleaños',
+  '🎵 Sonando ahora: "Furia de Pattala"',
+  '🎬 Último video: Construyendo un videojuego 3D desde cero'
+];
+let novedadActual = 0;
+const newsEl = document.getElementById('news-current');
+
+function rotarNovedad() {
+  if (!newsEl) return;
+  if (prefersReducedMotion) {
+    novedadActual = (novedadActual + 1) % NOVEDADES.length;
+    newsEl.textContent = NOVEDADES[novedadActual];
+    return;
+  }
+  dispersarFragmentosSalida(newsEl);
+  newsEl.classList.add('news-out');
+  setTimeout(() => {
+    novedadActual = (novedadActual + 1) % NOVEDADES.length;
+    newsEl.textContent = NOVEDADES[novedadActual];
+    newsEl.classList.remove('news-out');
+    newsEl.classList.add('news-in');
+    estallarFragmentos(newsEl);
+    setTimeout(() => newsEl.classList.remove('news-in'), 550);
+  }, 320);
+}
+if (newsEl) setInterval(rotarNovedad, 4500);
+
 const revealObserver = new IntersectionObserver((entries, obs) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
