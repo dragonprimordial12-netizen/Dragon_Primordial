@@ -291,13 +291,68 @@
   .fire-title::after {
     width: 105%;
     height: 170%;
-    background: radial-gradient(ellipse at center, rgba(255,210,0,0.35), transparent 62%);
+    background: radial-gradient(ellipse at center, rgba(255,20,20,0.4), transparent 62%);
     filter: blur(9px);
     animation: firepulse 1.6s ease-in-out infinite reverse;
   }
   @keyframes firepulse {
     0%,100% { opacity: 0.55; transform: translate(-50%, -50%) scale(0.94); }
     50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  /* ── 👤 CONTENEDOR DEL PERFIL (avatar + nombre + bio) — ancla para el aura y las runas ── */
+  .profile-header {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 🔴 Aura roja que respira detrás del nombre y la bio */
+  .name-aura {
+    position: absolute;
+    top: 7.8rem;
+    left: 50%;
+    width: 90%;
+    max-width: 360px;
+    height: 10rem;
+    transform: translate(-50%, 0);
+    background: radial-gradient(ellipse at center, rgba(255,20,20,0.38), rgba(180,0,0,0.14) 50%, transparent 75%);
+    filter: blur(22px);
+    z-index: -1;
+    pointer-events: none;
+    animation: auraRespira 4s ease-in-out infinite;
+  }
+  @keyframes auraRespira {
+    0%, 100% { opacity: 0.55; transform: translate(-50%, 0) scale(0.92); }
+    50%      { opacity: 1;    transform: translate(-50%, 0) scale(1.08); }
+  }
+
+  /* ᚠ Runas que se materializan y se desvanecen alrededor del perfil */
+  .profile-runes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .profile-runes .rune {
+    position: absolute;
+    top: var(--rt);
+    left: var(--rl);
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    color: #ff2222;
+    text-shadow: 0 0 8px rgba(255,20,20,0.85), 0 0 18px rgba(255,20,20,0.5);
+    opacity: 0;
+    animation: runeAparecer 6s ease-in-out infinite;
+    animation-delay: var(--rd);
+  }
+  @keyframes runeAparecer {
+    0%, 100% { opacity: 0;   transform: scale(0.6) rotate(-8deg); }
+    15%      { opacity: .9;  transform: scale(1.05) rotate(2deg); }
+    30%      { opacity: .9;  transform: scale(1) rotate(0deg); }
+    45%, 80% { opacity: 0;   transform: scale(0.7) rotate(6deg); }
   }
 
   /* ── 🎬 VIDEO DESTACADO ── */
@@ -1305,6 +1360,8 @@
     .avatar-wrap:hover .avatar-enfado .espina,
     [data-theme="corrupcion"] .avatar-enfado .espina,
     [data-theme="corrupcion"] .avatar-wrap:hover .avatar-enfado .espina { animation: none; opacity: .85; }
+    .profile-runes { display: none; }
+    .name-aura { animation: none; opacity: 0.75; transform: translate(-50%, 0) scale(1); }
   }
 </style>
 </head>
@@ -1379,6 +1436,8 @@
 
 <div class="wrapper">
 
+  <div class="profile-header">
+
   <!-- AVATAR -->
   <div class="avatar-wrap">
     <div class="avatar-ring">
@@ -1396,6 +1455,9 @@
     </div>
   </div>
 
+  <!-- 🔴 Aura detrás del nombre -->
+  <div class="name-aura" aria-hidden="true"></div>
+
   <!-- NAME -->
   <div class="fire-title">
     <h1 class="profile-name">𓆩Dragón✧Primordial𓆪</h1>
@@ -1403,6 +1465,18 @@
   <p class="profile-bio">
     𓆩Lo extraordinario no deja de existir porque parezca absurdo✧𓆪 🗣️👻
   </p>
+
+  <!-- ᚠ Runas flotantes -->
+  <div class="profile-runes" aria-hidden="true">
+    <span class="rune" style="--rt:4%;  --rl:6%;  --rd:0s">ᚠ</span>
+    <span class="rune" style="--rt:7%;  --rl:87%; --rd:1.2s">ᛟ</span>
+    <span class="rune" style="--rt:47%; --rl:2%;  --rd:2.4s">ᛉ</span>
+    <span class="rune" style="--rt:50%; --rl:93%; --rd:3.6s">ᚱ</span>
+    <span class="rune" style="--rt:80%; --rl:9%;  --rd:4.2s">ᛊ</span>
+    <span class="rune" style="--rt:82%; --rl:85%; --rd:5s">ᚦ</span>
+  </div>
+
+  </div><!-- /.profile-header -->
 
   <!-- STATS -->
   <div class="stats-strip">
