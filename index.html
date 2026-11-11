@@ -135,11 +135,15 @@
     z-index: 1;
   }
   .banner-img {
+    position: absolute;
+    top: 50%;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 130%;
     object-fit: cover;
     display: block;
     filter: brightness(0.55) saturate(1.15) contrast(1.05);
+    transform: translateY(calc(-50% + var(--parallax-y, 0px)));
     will-change: transform;
   }
   .banner-wrap::after {
@@ -231,23 +235,35 @@
     50%     { opacity: 1;  transform: scale(1.05); }
   }
 
-  /* 🩸 Tema Corrupción: la corona dorada se vuelve grietas/tentáculos morados */
+  /* 🩸 Tema Corrupción: la corona dorada se vuelve tentáculos morados que ondulan (no solo cambian de color) */
   [data-theme="corrupcion"] .avatar-enfado::before {
     border-color: rgba(190,60,255,0.65);
     box-shadow: 0 0 16px rgba(190,60,255,.55), inset 0 0 14px rgba(190,60,255,.35);
   }
   [data-theme="corrupcion"] .avatar-enfado .espina {
     background: linear-gradient(180deg, #d891ff, #4b0082);
-    clip-path: polygon(50% 0%, 70% 34%, 100% 22%, 64% 56%, 88% 100%, 50% 70%, 12% 100%, 36% 56%, 0% 22%, 30% 34%);
+    clip-path: polygon(50% 0%, 66% 30%, 86% 20%, 70% 48%, 90% 62%, 66% 64%, 74% 100%, 50% 72%, 26% 100%, 34% 64%, 10% 62%, 30% 48%, 14% 20%, 34% 30%);
     filter: drop-shadow(0 0 5px #c026d3) drop-shadow(0 0 12px rgba(180,40,220,.6));
+    animation: tentaculoOndula 1.8s ease-in-out infinite;
+  }
+  @keyframes tentaculoOndula {
+    0%, 100% { opacity: .55; transform: rotate(calc(var(--ang) * 1deg + 0deg)) translateY(-58px) scaleY(0.9); }
+    50%      { opacity: 1;   transform: rotate(calc(var(--ang) * 1deg + 8deg)) translateY(-68px) scaleY(1.15); }
   }
 
-  /* 🖱️ Hover sobre el avatar: la decoración late más rápido y se estira, como si lo provocaras */
+  /* 🖱️ Hover sobre el avatar: la decoración late/ondula más rápido y se estira, como si lo provocaras */
   .avatar-wrap:hover .avatar-enfado::before { animation-duration: 0.55s; }
   .avatar-wrap:hover .avatar-enfado .espina { animation: enfadoLatidoHover 0.55s ease-in-out infinite; }
   @keyframes enfadoLatidoHover {
     0%, 100% { opacity: .55; transform: rotate(calc(var(--ang) * 1deg)) translateY(-64px) scale(0.92); }
     50%      { opacity: 1;   transform: rotate(calc(var(--ang) * 1deg)) translateY(-75px) scale(1.3); }
+  }
+  [data-theme="corrupcion"] .avatar-wrap:hover .avatar-enfado .espina {
+    animation: tentaculoOndulaHover 0.65s ease-in-out infinite;
+  }
+  @keyframes tentaculoOndulaHover {
+    0%, 100% { opacity: .6; transform: rotate(calc(var(--ang) * 1deg + 0deg))  translateY(-60px) scaleY(1); }
+    50%      { opacity: 1;  transform: rotate(calc(var(--ang) * 1deg + 14deg)) translateY(-76px) scaleY(1.3); }
   }
 
   /* ── 🔥 FUEGO ALREDEDOR DEL TÍTULO ── */
@@ -1155,16 +1171,16 @@
   .theme-flash {
     position: fixed; inset: 0; z-index: 45;
     opacity: 0;
-    background: var(--flash-color, rgba(255,120,0,0.5));
+    background: radial-gradient(circle at var(--wave-x, 92%) var(--wave-y, 3%), var(--flash-color, rgba(255,120,0,0.5)), transparent 62%);
     mix-blend-mode: screen;
     pointer-events: none;
-    clip-path: circle(0% at var(--wave-x, 50%) var(--wave-y, 50%));
+    clip-path: circle(0% at var(--wave-x, 92%) var(--wave-y, 3%));
   }
   .theme-flash.flash { animation: themeWave 0.75s cubic-bezier(.2,.8,.2,1); }
   @keyframes themeWave {
-    0%   { opacity: .9; clip-path: circle(0% at var(--wave-x, 50%) var(--wave-y, 50%)); }
-    65%  { opacity: .65; }
-    100% { opacity: 0;  clip-path: circle(150% at var(--wave-x, 50%) var(--wave-y, 50%)); }
+    0%   { opacity: 1;  clip-path: circle(0% at var(--wave-x, 92%) var(--wave-y, 3%)); }
+    65%  { opacity: 1; }
+    100% { opacity: 0;  clip-path: circle(150% at var(--wave-x, 92%) var(--wave-y, 3%)); }
   }
 
   /* ⬆️ Botón volver arriba */
@@ -1286,7 +1302,9 @@
     .avatar-enfado::before,
     .avatar-wrap:hover .avatar-enfado::before { animation: none; opacity: .8; }
     .avatar-enfado .espina,
-    .avatar-wrap:hover .avatar-enfado .espina { animation: none; opacity: .85; }
+    .avatar-wrap:hover .avatar-enfado .espina,
+    [data-theme="corrupcion"] .avatar-enfado .espina,
+    [data-theme="corrupcion"] .avatar-wrap:hover .avatar-enfado .espina { animation: none; opacity: .85; }
   }
 </style>
 </head>
@@ -2497,38 +2515,36 @@ const FURIA_VENTANA_MS = 1100;
 const FURIA_UMBRAL     = 5;
 let furiaEnfriando = false;
 
-function dispararFuriaMaxima(origenRect) {
+function dispararFuriaMaxima() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    mostrarToastEgg('🐲🔥 FURIA MÁXIMA — el dragón pierde la paciencia.');
+    mostrarToastEgg('🐲🔥 ¡FURIA MÁXIMA DESATADA!');
     return;
   }
-  const cx = origenRect.left + origenRect.width / 2;
-  const cy = origenRect.top  + origenRect.height / 2;
-
   document.body.classList.remove('furia-shake');
   void document.body.offsetWidth; // fuerza reflow para poder repetir el shake
   document.body.classList.add('furia-shake');
   setTimeout(() => document.body.classList.remove('furia-shake'), 500);
 
+  // las grietas salen esparcidas por toda la pantalla, no solo desde el avatar
   const contenedor = document.createElement('div');
   contenedor.className = 'furia-grietas';
-  const cantidad = 9;
+  const cantidad = 16;
   for (let i = 0; i < cantidad; i++) {
-    const angulo = (360 / cantidad) * i + (Math.random() * 18 - 9);
-    const largo  = 45 + Math.random() * 40;
+    const angulo = Math.random() * 360;
+    const largo  = 90 + Math.random() * 180;
     const grieta = document.createElement('span');
     grieta.className = 'furia-grieta';
-    grieta.style.left = cx + 'px';
-    grieta.style.top  = cy + 'px';
+    grieta.style.left = (Math.random() * window.innerWidth) + 'px';
+    grieta.style.top  = (Math.random() * window.innerHeight) + 'px';
     grieta.style.setProperty('--ang', angulo + 'deg');
-    grieta.style.setProperty('--largo', largo + 'vh');
-    grieta.style.animationDelay = (Math.random() * 0.12) + 's';
+    grieta.style.setProperty('--largo', largo + 'px');
+    grieta.style.animationDelay = (Math.random() * 0.15) + 's';
     contenedor.appendChild(grieta);
   }
   document.body.appendChild(contenedor);
   setTimeout(() => contenedor.remove(), 1000);
 
-  mostrarToastEgg('🐲🔥 FURIA MÁXIMA — el dragón pierde la paciencia.');
+  mostrarToastEgg('🐲🔥 ¡FURIA MÁXIMA DESATADA!');
 }
 
 if (avatarEl) {
@@ -2545,7 +2561,7 @@ if (avatarEl) {
     if (clicksSeguidos.length >= FURIA_UMBRAL && !furiaEnfriando) {
       furiaEnfriando = true;
       clicksSeguidos = [];
-      dispararFuriaMaxima(rect);
+      dispararFuriaMaxima();
       setTimeout(() => { furiaEnfriando = false; }, 1500);
       return;
     }
@@ -2590,8 +2606,7 @@ function actualizarScroll() {
   if (scrollProgressEl) scrollProgressEl.style.width = pct + '%';
   if (backToTopBtn) backToTopBtn.classList.toggle('show', scrollTop > 600);
   if (bannerImgEl && !prefersReducedMotion) {
-    const despl = Math.min(scrollTop * 0.25, 70); // tope para que nunca se despegue del marco
-    bannerImgEl.style.transform = `translateY(${despl}px) scale(1.15)`;
+    bannerImgEl.style.setProperty('--parallax-y', Math.min(scrollTop * 0.18, 32) + 'px');
   }
   scrollTicking = false;
 }
