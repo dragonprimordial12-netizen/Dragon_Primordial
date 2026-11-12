@@ -209,8 +209,8 @@
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 2px solid rgba(255,170,40,0.65);
-    box-shadow: 0 0 16px rgba(255,170,40,.55), inset 0 0 14px rgba(255,170,40,.35);
+    border: 2px solid rgba(255,30,30,0.65);
+    box-shadow: 0 0 16px rgba(255,20,20,.55), inset 0 0 14px rgba(255,20,20,.35);
     animation: enfadoAro 1.15s ease-in-out infinite;
     transition: border-color .5s ease, box-shadow .5s ease, animation-duration .3s ease;
   }
@@ -219,9 +219,9 @@
     top: 50%; left: 50%;
     width: 20px; height: 26px;
     margin: -13px 0 0 -10px;
-    background: linear-gradient(180deg, #ffe066, #ff8c00);
+    background: linear-gradient(180deg, #ff5a3b, #a00000);
     clip-path: polygon(50% 0%, 78% 38%, 62% 42%, 88% 78%, 50% 100%, 12% 78%, 38% 42%, 22% 38%);
-    filter: drop-shadow(0 0 5px #ffb347) drop-shadow(0 0 12px rgba(255,160,0,.6));
+    filter: drop-shadow(0 0 5px #ff2222) drop-shadow(0 0 12px rgba(255,20,20,.6));
     transform: rotate(calc(var(--ang) * 1deg)) translateY(-62px);
     animation: enfadoLatido 1.15s ease-in-out infinite;
     transition: background .5s ease, filter .5s ease, clip-path .5s ease;
@@ -394,13 +394,12 @@
     font-family: 'Cinzel Decorative', serif;
     font-size: clamp(1.3rem, 5vw, 1.8rem);
     font-weight: 900;
-    background: linear-gradient(135deg, var(--grad1), var(--grad2) 45%, var(--grad3) 80%, var(--grad4));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ff1a1a;
+    -webkit-text-stroke: 1.5px #000;
+    paint-order: stroke fill;
     letter-spacing: 0.04em;
     text-align: center;
-    filter: drop-shadow(0 0 20px var(--glow-soft));
+    filter: drop-shadow(0 0 20px rgba(255,20,20,0.55));
     margin-bottom: 0.35rem;
     animation: fadeDown 0.8s ease both;
   }
@@ -524,6 +523,32 @@
     box-shadow: 0 4px 40px rgba(255,120,0,0.3);
     transform: translateX(6px) scale(1.01);
   }
+
+  /* 🔵 SECCIÓN "JUGÁ LOS JUEGOS" — todas las tarjetas en azul */
+  .juegos-links .link-btn,
+  .juegos-links .qr-card,
+  .juegos-links .countdown-card {
+    border-color: rgba(30,144,255,0.45);
+  }
+  .juegos-links .link-btn:hover {
+    border-color: rgba(60,160,255,0.65);
+    background: rgba(20,100,255,0.12);
+    box-shadow: 0 4px 30px rgba(30,144,255,0.2), inset 0 0 20px rgba(30,144,255,0.08);
+  }
+  .juegos-links .link-btn:hover::after { background: #3ea0ff; }
+  .juegos-links .link-btn.featured {
+    border-color: rgba(60,160,255,0.55);
+    background: linear-gradient(135deg, rgba(0,90,255,0.16), rgba(0,30,140,0.16));
+    box-shadow: 0 0 25px rgba(30,144,255,0.18);
+  }
+  .juegos-links .link-btn.featured:hover {
+    border-color: #3ea0ff;
+    background: linear-gradient(135deg, rgba(0,110,255,0.24), rgba(0,40,170,0.2));
+    box-shadow: 0 4px 40px rgba(30,144,255,0.35);
+  }
+  .juegos-links .countdown-tag,
+  .juegos-links .countdown-num { color: #5ab2ff; }
+  .juegos-links .countdown-unit { border-color: rgba(30,144,255,0.35); background: rgba(10,20,40,0.5); }
 
   /* 🔴 TARJETAS DE REDES SOCIALES — borde rojo + salto en cadena, tipo ola */
   .social-links .link-btn {
@@ -1052,18 +1077,53 @@
   /* Panel flotante de música (playlist de 4 pistas) */
   .music-player {
     position: fixed;
-    right: 1.1rem;
-    bottom: 1.1rem;
+    left: 0.8rem;
+    top: calc(0.8rem + env(safe-area-inset-top, 0px));
     z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .music-handle {
+    width: 32px; height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255,140,0,0.4);
+    background: radial-gradient(circle at 35% 20%, #1a0830, #060310 80%);
+    box-shadow: 0 0 14px rgba(255,100,0,0.35);
+    color: var(--gold);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .music-handle.playing { animation: musicpulse 2.4s ease-in-out infinite; border-color: var(--gold); }
+  .music-panel {
+    margin-top: 0.45rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.6rem 0.75rem;
+    padding: 0 0.75rem;
     border-radius: 18px;
-    border: 1px solid rgba(255,140,0,0.4);
+    border: 1px solid transparent;
     background: radial-gradient(circle at 35% 20%, #1a0830, #060310 80%);
     box-shadow: 0 0 20px rgba(255,100,0,0.3), inset 0 0 12px rgba(0,0,0,0.8);
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease, border-color 0.3s ease;
+  }
+  .music-player.open .music-panel {
+    max-height: 220px;
+    opacity: 1;
+    padding: 0.6rem 0.75rem;
+    border-color: rgba(255,140,0,0.4);
+    pointer-events: auto;
   }
   .music-track-name {
     font-family: 'Cinzel', serif;
@@ -1077,7 +1137,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .music-player { min-width: 150px; }
+  .music-panel { min-width: 150px; }
   .music-progress {
     width: 100%;
     height: 4px;
@@ -1646,7 +1706,7 @@
     <h3 class="section-title">🎮 Jugá los Juegos</h3>
     <p class="section-desc">Por ahora, estas son las dos únicas formas de probar el universo Dragón Primordial. Elegí tu plataforma.</p>
   </div>
-  <div class="links">
+  <div class="links juegos-links">
     <a class="link-btn featured" href="https://www.roblox.com/es/games/103451711855402/BESTIAS-Y-MONSTRUOS" target="_blank">
       <span class="link-icon">🎮</span>
       <div class="link-text">
@@ -2189,19 +2249,22 @@
 
 <!-- 🎵 MÚSICA DE FONDO (playlist con tus 4 temas) -->
 <audio id="bg-music" preload="none"></audio>
-<div class="music-player">
-  <span id="music-track-name" class="music-track-name">—</span>
-  <input id="music-progress" class="music-progress" type="range" min="0" max="100" step="0.1" value="0" aria-label="Progreso de la pista">
-  <div class="music-controls">
-    <button id="music-prev" class="music-btn" type="button" aria-label="Pista anterior" title="Pista anterior">⏮</button>
-    <button id="music-toggle" class="music-btn music-btn-main" type="button" aria-label="Reproducir / pausar" title="Reproducir / pausar">
-      <span class="music-icon">🎵</span>
-    </button>
-    <button id="music-next" class="music-btn" type="button" aria-label="Pista siguiente" title="Pista siguiente">⏭</button>
-  </div>
-  <div class="music-volume-row">
-    <button id="music-mute" class="music-btn music-btn-mute" type="button" aria-label="Silenciar" title="Silenciar">🔊</button>
-    <input id="music-volume" class="music-volume" type="range" min="0" max="100" step="1" value="35" aria-label="Volumen">
+<div class="music-player" id="music-player">
+  <button id="music-handle" class="music-handle" type="button" aria-label="Mostrar reproductor" aria-expanded="false" title="Reproductor de música">🎵</button>
+  <div class="music-panel" id="music-panel">
+    <span id="music-track-name" class="music-track-name">—</span>
+    <input id="music-progress" class="music-progress" type="range" min="0" max="100" step="0.1" value="0" aria-label="Progreso de la pista">
+    <div class="music-controls">
+      <button id="music-prev" class="music-btn" type="button" aria-label="Pista anterior" title="Pista anterior">⏮</button>
+      <button id="music-toggle" class="music-btn music-btn-main" type="button" aria-label="Reproducir / pausar" title="Reproducir / pausar">
+        <span class="music-icon">🎵</span>
+      </button>
+      <button id="music-next" class="music-btn" type="button" aria-label="Pista siguiente" title="Pista siguiente">⏭</button>
+    </div>
+    <div class="music-volume-row">
+      <button id="music-mute" class="music-btn music-btn-mute" type="button" aria-label="Silenciar" title="Silenciar">🔊</button>
+      <input id="music-volume" class="music-volume" type="range" min="0" max="100" step="1" value="35" aria-label="Volumen">
+    </div>
   </div>
 </div>
 
@@ -2376,6 +2439,21 @@ if (musicBtn && bgMusic && prevBtn && nextBtn && trackNameEl) {
   function marcarSonando(sonando) {
     musicBtn.classList.toggle('playing', sonando);
     icon.textContent = sonando ? '🔊' : '🎵';
+    const handle = document.getElementById('music-handle');
+    if (handle) {
+      handle.classList.toggle('playing', sonando);
+      handle.textContent = sonando ? '🔊' : '🎵';
+    }
+  }
+
+  const musicPlayerEl = document.getElementById('music-player');
+  const musicHandleEl = document.getElementById('music-handle');
+  if (musicPlayerEl && musicHandleEl) {
+    musicHandleEl.addEventListener('click', () => {
+      const abierto = musicPlayerEl.classList.toggle('open');
+      musicHandleEl.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+      musicHandleEl.setAttribute('aria-label', abierto ? 'Ocultar reproductor' : 'Mostrar reproductor');
+    });
   }
 
   function actualizarIconoVolumen() {
