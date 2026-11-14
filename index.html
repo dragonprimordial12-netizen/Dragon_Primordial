@@ -1423,6 +1423,60 @@
     .profile-runes { display: none; }
     .name-aura { animation: none; opacity: 0.75; transform: translate(-50%, 0) scale(1); }
   }
+  /* Avances de Bestias Génesis — tarjeta editorial integrada al universo */
+  .genesis-avances {
+    position: relative; overflow: hidden; width: 100%;
+    padding: 1.2rem; border: 1px solid var(--link-border); border-radius: 16px;
+    background: linear-gradient(145deg, var(--link-bg), rgba(10, 7, 17, .96) 65%);
+    box-shadow: 0 0 24px var(--glow), inset 0 1px rgba(255, 215, 0, .07);
+    text-align: left;
+  }
+  .genesis-avances::before {
+    content: 'ᛟ'; position: absolute; right: .5rem; top: -.9rem;
+    font-size: 7rem; color: var(--gold); opacity: .045; pointer-events: none;
+  }
+  .genesis-avances__eyebrow {
+    display: inline-flex; gap: .45rem; align-items: center; flex-wrap: wrap;
+    font: 600 .58rem 'Cinzel', serif; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .genesis-avances__status {
+    padding: .25rem .45rem; border: 1px solid var(--link-border); border-radius: 999px;
+    color: #f2d19b; background: rgba(0, 0, 0, .22); letter-spacing: .08em;
+  }
+  .genesis-avances h4 {
+    position: relative; margin: .65rem 0 .35rem; font: 700 1.05rem 'Cinzel', serif;
+    color: #ffe5b2; letter-spacing: .025em;
+  }
+  .genesis-avances__intro {
+    position: relative; margin: 0 0 1rem; color: #d9c5ae;
+    font: italic .88rem/1.55 'IM Fell English', serif;
+  }
+  .genesis-avances__hero, .genesis-avances__item {
+    position: relative; border: 1px solid var(--link-border); border-radius: 11px;
+    background: rgba(4, 3, 10, .54);
+  }
+  .genesis-avances__hero { padding: .95rem; margin-bottom: .65rem; }
+  .genesis-avances__headline { display: flex; align-items: center; gap: .65rem; }
+  .genesis-avances__icon { font-size: 1.45rem; line-height: 1; }
+  .genesis-avances__name { font: 600 .76rem 'Cinzel', serif; color: var(--gold); }
+  .genesis-avances__hero p, .genesis-avances__item p {
+    margin: .42rem 0 0; color: #e2d1be; font: .75rem/1.55 'Cinzel', serif;
+  }
+  .genesis-avances details { margin-top: .75rem; }
+  .genesis-avances summary {
+    color: #ffe0a0; cursor: pointer; font: 600 .69rem 'Cinzel', serif;
+    padding: .45rem 0; text-underline-offset: .2em;
+  }
+  .genesis-avances summary:hover { color: var(--ember); }
+  .genesis-avances summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .genesis-avances__abilities { margin: .2rem 0 .1rem; padding-left: 1.2rem; color: #dfc8ae; font: .72rem/1.65 'Cinzel', serif; }
+  .genesis-avances__abilities strong { color: #ffe1a9; }
+  .genesis-avances__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+  .genesis-avances__item { padding: .8rem; min-width: 0; }
+  .genesis-avances__item h5 { margin: 0; color: var(--gold); font: 600 .72rem/1.4 'Cinzel', serif; }
+  .genesis-avances__note { margin: .9rem 0 0; color: #bfa991; font: italic .7rem/1.5 'IM Fell English', serif; }
+  @media (max-width: 390px) { .genesis-avances { padding: .85rem; } .genesis-avances__grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -1724,6 +1778,32 @@
       <span class="link-arrow">▶</span>
     </a>
 
+    <!-- Avances de desarrollo: no anuncian disponibilidad ni fecha de lanzamiento -->
+    <section class="genesis-avances" aria-labelledby="genesis-avances-titulo">
+      <div class="genesis-avances__eyebrow"><span>🐾 Bestias Génesis · V11</span><span class="genesis-avances__status">En desarrollo</span></div>
+      <h4 id="genesis-avances-titulo">La manada empieza a despertar</h4>
+      <p class="genesis-avances__intro">Un vistazo a las criaturas y habilidades que están tomando forma en la próxima etapa del juego.</p>
+      <article class="genesis-avances__hero">
+        <div class="genesis-avances__headline"><span class="genesis-avances__icon" aria-hidden="true">🐺</span><span class="genesis-avances__name">Lobo Alfa</span></div>
+        <p>Un líder que convoca compañeros, desata a su manada y abre un dominio carmesí rodeado de energía.</p>
+        <details>
+          <summary>Descubrí sus técnicas</summary>
+          <ul class="genesis-avances__abilities">
+            <li><strong>Compañeros del Alfa:</strong> tres clones con vida propia que siguen a su líder.</li>
+            <li><strong>Manada de Lobos:</strong> clones espectrales atacan a los enemigos cercanos.</li>
+            <li><strong>Esfera Carmesí:</strong> sacrifica la mitad de su vida actual para desatar una secuencia de ataques.</li>
+            <li><strong>Expansión de Dominio:</strong> un área carmesí con pulsos y efectos espectrales.</li>
+          </ul>
+        </details>
+      </article>
+      <div class="genesis-avances__grid">
+        <article class="genesis-avances__item"><h5>🐝 Abeja Reina</h5><p>Descenso rápido en picada y un aguijonazo que extiende su abdomen por un instante.</p></article>
+        <article class="genesis-avances__item"><h5>🪲 Escarabajo</h5><p>Cuernos de quitina, placas renovadas y cámaras químicas acompañan su armadura.</p></article>
+        <article class="genesis-avances__item"><h5>⚡ Rayo del Dragón</h5><p>Una carga eléctrica sonora acompaña la concentración antes de liberar el ataque.</p></article>
+        <article class="genesis-avances__item"><h5>🦔 Pangolín</h5><p>Su Rueda de Obsidiana transforma la defensa en una embestida rodante.</p></article>
+      </div>
+      <p class="genesis-avances__note">Avances en desarrollo. La disponibilidad se anunciará por los canales oficiales.</p>
+    </section>
     <!-- 📱 QR — escaneá y jugá desde el celular -->
     <div class="qr-card">
       <img class="qr-img" loading="lazy"
@@ -2834,7 +2914,8 @@ function dispersarFragmentosSalida(el) {
 const NOVEDADES = [
   '🎂 Nueva sección: Tarjeta de Cumpleaños',
   '🎵 Sonando ahora: "Furia de Pattala"',
-  '🎬 Último video: Construyendo un videojuego 3D desde cero'
+  '🎬 Último video: Construyendo un videojuego 3D desde cero',
+  '🐺 V11 en desarrollo: Lobo Alfa y su dominio carmesí'
 ];
 let novedadActual = 0;
 const newsEl = document.getElementById('news-current');
